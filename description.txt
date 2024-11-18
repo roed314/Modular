@@ -3,13 +3,13 @@ The following was the message I posted to the LMFDB modular curve group.
 
 Hello all,
 I have a very preliminary version of my new modular curve code available at:  https://github.com/davidzywina/Modular
-It is an improved version of my previous code that I used for a computational version of Serre's open image theorem. It should run noticeably faster and works for groups that do not have full determinant.
+It is an improved version of my previous code that I used for a computational version of Serre's open image theorem. It should run noticeably faster and works for groups that do not have full determinant (though you might want to focus on full determinant first).
 
-Please give it a try and see how it compares with the earlier version.  In particular, forward me any problems or examples that seem too slow.   If there are features I should add, this is the time to let me know.   I plan to add morphisms between curves later this year.
+Please give it a try and see how it compares with the earlier version.  In particular, forward me any problems or examples that seem too slow.   If there are features I should add, this is the time to let me know!   I plan to add morphisms between curves later this year.
 
-To load the code type the following in Magma:
+To load the code type the following in Magma from the base directory of the repository:
         AttachSpec("EarlierCode/magma.spec");
-        Attach("ModularCurves.m");
+        Attach("Modular.m");
 The first loads Andrew Sutherland's GL2 group theory functions.
 
 Given a subgroup G of GL(2,Z/NZ), the code
@@ -18,7 +18,7 @@ creates the corresponding modular curve X=X_G.  You could also use
         X:=CreateModularCurveRec(N,gens);
 where gens is a sequence of generators of G.
 
-One of the major changes is that it now support groups that do not have full determinant in which case the curve is defined over a number field K:=X`KG.  When K is not the rationals, you have to be a little careful which bases are over K and which are over Q.
+One of the major changes is that it now support groups that do not have full determinant in which case the curve is defined over a number field K:=X`KG.  When K is not the rationals, you have to be a little careful which bases are over K and which are over Q.  The code is designed to work well when the degree [K:Q] is small.
 
 The following computes the modular forms of weight k for X
         X:=FindModularForms(2,X);
