@@ -1,0 +1,50 @@
+The following was the message I posted to the LMFDB modular curve group.
+------------------------------------
+
+Hello all,
+I have a very preliminary version of my new modular curve code available at:  https://github.com/davidzywina/Modular
+It is an improved version of my previous code that I used for a computational version of Serre's open image theorem. It should run noticeably faster and works for groups that do not have full determinant.
+
+Please give it a try and see how it compares with the earlier version.  In particular, forward me any problems or examples that seem too slow.   If there are features I should add, this is the time to let me know.   I plan to add morphisms between curves later this year.
+
+To load the code type the following in Magma:
+        AttachSpec("EarlierCode/magma.spec");
+        Attach("ModularCurves.m");
+The first loads Andrew Sutherland's GL2 group theory functions.
+
+Given a subgroup G of GL(2,Z/NZ), the code
+        X:=CreateModularCurveRec(G);
+creates the corresponding modular curve X=X_G.  You could also use
+        X:=CreateModularCurveRec(N,gens);
+where gens is a sequence of generators of G.
+
+One of the major changes is that it now support groups that do not have full determinant in which case the curve is defined over a number field K:=X`KG.  When K is not the rationals, you have to be a little careful which bases are over K and which are over Q.
+
+The following computes the modular forms of weight k for X
+        X:=FindModularForms(2,X);
+It has only been tested for even integers k>0 (though it should have functionality for odd k>1). 
+
+A basis for the modular forms is given by X`F. 
+Note that each modular form is given as a sequence consisting of the q-expansion at each cusp. There is a slight difference than the previous version: the q-expansion is now given in terms of qw:=q^(1/w), where w is the width of the cusp being considered.
+
+Once the modular forms have been computed, the following computes the cusp forms:
+        X:=FindCuspForms(X);
+with the basis given by X`F0. There is also a function "FindModularFormsWithVanishingConditions", where one can impose other vanishing conditions at the cusps.
+
+When X has genus at least 3, we can compute the image of the canonical map:
+        X:=FindCanonicalModel(X);
+the equations are given in X`psi. When the curve is geometrically hyperelliptic, the equations will cut out a genus 0 curve.
+
+The following computes a model of the curve:
+        X:=FindModelOfXG(X);
+It will use the canonical model when possible.  Otherwise it will use what the LMFDB calls an "embedded model".
+The equations for the model are found in X`psi.   The polynomials in X`psi will all be homogenous of degree 2 or 3 (except in the case where X is not geometrically hyperelliptic and has genus 3; it is then given as a smooth plane quartic).
+
+A significant change over the previous version is how the precision of the q-expansions is handled.  For example, none of the above functions require precision as input!  
+
+The following function increases the precision of your modular forms
+        X:=IncreaseModularFormPrecision(X,prec),
+where "prec" is a positive integer.   This will replace the modular forms in X`F and X`F0, if they exist, with the same modular forms but with appropriately increased precision.  
+[Precision is handled a little differently now too.   Before it was in terms of the absolute precision when viewing q-expansion as power series in q_N=q^(1/N) where N is the level of G.  It is now in terms of q_m=q^(1/m) where m is the "sl2-level".]
+There is also a version of "IncreaseModularFormPrecision" where you can give how many terms of the q-expansion you want at each cusp.
+
