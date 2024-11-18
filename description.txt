@@ -1,11 +1,11 @@
 The following was the message I posted to the LMFDB modular curve group.   There will be better documentation later.
 ------------------------------------
 
-Hello all,
-I have a very preliminary version of my new modular curve code available at:  https://github.com/davidzywina/Modular
-It is an improvement of my previous code that I used for a computational version of Serre's open image theorem. It should run noticeably faster and works for groups that do not have full determinant (though you might want to focus on full determinant first).
+I have a very preliminary version of my new modular curve code available at: https://github.com/davidzywina/Modular
 
-Please give it a try and see how it compares with the earlier version.  In particular, forward me any problems or examples that seem too slow.   If there are features I should add, this is the time to let me know!   I plan to add morphisms between curves later this year.
+It is an improvement of my previous code that was used for a computational version of Serre's open image theorem. It should run noticeably faster and works for groups that do not have full determinant (though you might want to focus on full determinant first).
+
+Please give it a try and see how it compares with the earlier version. In particular, send me any problems or examples that seem too slow. If there are features I should add, this is the time to let me know! I plan to add morphisms between curves later this year.
 
 To load the code, type the following in Magma from the base directory of the repository:
         AttachSpec("EarlierCode/magma.spec");
