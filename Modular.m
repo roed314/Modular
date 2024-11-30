@@ -1920,17 +1920,15 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
 
     // Update the precision of modular forms with vanishing conditions (if they exist)
     if assigned M`F0 and #M`F0 ne 0 then
-        if #M`F0 eq #M`F then
-            FF:=M`F; 
-        else
-            assert #M`conversion_matrices eq 4;
-            C1:=ChangeRing(M`conversion_matrices[3],Rationals());
-            C2:=ChangeRing(M`conversion_matrices[4],Rationals());
-            // The above already computed matrices tell us how to recover M`F0 from M`F
-            B:=C2*C1*A;
-            FF:=[SequenceToModularForm(M,v, [p-1: p in prec1],M`N :OverQ:=true) : v in Rows(B)];
-        end if;
-        M`F0:=FF;
+        assert #M`conversion_matrices eq 4;
+        C1:=ChangeRing(M`conversion_matrices[3],Rationals());
+        C2:=ChangeRing(M`conversion_matrices[4],Rationals());
+        // The above already computed matrices tell us how to recover M`F0 from M`F
+        B:=C2*C1*A;
+        F0:=[SequenceToModularForm(M,v, [p-1: p in prec1],M`N :OverQ:=true) : v in Rows(B)];
+
+        // Update using the highest precision estimate available at each cusp.
+        M`F0:=[  [ AbsolutePrecision(F0[j][e]) ge AbsolutePrecision(M`F0[j][e]) select F0[j][e] else M`F0[j][e] : e in [1..M`vinf] ]  : j in [1..#M`F0] ];
     end if;
 
     return M;   
