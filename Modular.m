@@ -1,6 +1,6 @@
 AttachSpec("EarlierCode/magma.spec");   // Andrew Sutherland's group theory package
 
-// load Cummins-Pauli data    
+// load Cummins-Pauli data for congruence subgroups of genus at most 24  
 filename:="CPdata/CPdata.dat";  
 I:=Open(filename, "r"); 
 _,cp_data:=ReadObjectCheck(I); 
@@ -48,32 +48,102 @@ smooth_plane_quintic:=["75A6","75D6"];
 /*
     A record of type "ModularCurveRec" encodes information about the curve X_G where G is a subgroup of GL(2,Z/NZ).   
     The curve X_G is smooth, projective and geometrically irreducible, and defined over the number field K_G=Q(zeta_N)^det(G).
-
-    TODO: add description of entries after they stabilize; remove those not used
 */
 
 ModularCurveRec := recformat<
-    N, index, degree, det_index, genus, v2, v3, vinf, sl2level, gl2level, k, dimMk, dimSk,  prec_sturm, commutator_index :RngIntElt,                     
-    gens, cusps, widths, regular, cusp_orbits, cusp_to_orbit, F, F0, f, trdet, pts, key, exceptional_jinvariants, Gc_decomp, high_genus_model, 
-        cyclic_invariants, cyclic_models, cyclic_generators, cover_with_same_commutator_subgroup, psi, mult, prec :SeqEnum,   
-    has_point, has_infinitely_many_points, has_nonCM_point, has_neg_one, is_agreeable, is_unentangled, extraneous, is_serre_type_model: BoolElt,                                                              
-    G, H, Hc, Gc :GrpMat,    
-    Hc_gen, modular_form_data: SeqEnum,                      
-    C:Crv, 
-    map_to_jline, pi :List,
-    sturm: FldRatElt, 
-    model_degree : RngIntElt,
+    G, H :GrpMat,  
+
+    N, index, degree, det_index, genus, v2, v3, vinf, sl2level, gl2level, k, dimMk, dimSk :RngIntElt,   
+
+    cusps, widths, regular, cusp_orbits, cusp_to_orbit, F, F0,  psi, mult, prec, prec_sturm, modular_form_data :SeqEnum,  
+
+    has_neg_one,  is_unentangled: BoolElt,                                                              
+      
+    model_degree : RngIntElt,  //write description
+
     KG: FldNum, 
     KG_degree: RngIntElt,
     KG_integral_basis, KG_integral_basis_cyclotomic    : SeqEnum,
 
-    cusp_fields, conversion_matrices: List,
+    conversion_matrices: List,
 
     CPname :MonStgElt,
 
-    Gm_mod_H, Gm_mod_H_pairs, Gm_mod_H_det, cosets_det : SeqEnum
+    Gm_mod_H, Gm_mod_H_pairs, Gm_mod_H_det, cosets_det : SeqEnum,
+
+
+    // The below entries are currently unused and should be pruned.
+    C:Crv, 
+    map_to_jline, pi :List,
+    has_point, has_infinitely_many_points, has_nonCM_point,is_agreeable,extraneous, is_serre_type_model :BoolElt,
+    commutator_index, f, trdet, pts :RngIntElt,   
+    key,gens, exceptional_jinvariants, Gc_decomp, high_genus_model, cyclic_invariants, cyclic_models, cyclic_generators, cover_with_same_commutator_subgroup : SeqEnum,
+    Hc, Gc, Hc_gen :GrpMat
 >;	 
 
+/*                            
+ DESCRIPTION OF SOME OF THE ENTRIES:
+    _______________________________________________________
+    
+    G           : A subgroup of GL(2,Z/NZ). We will sometimes view it as an open subgroup of GL(2,Zhat).
+                    We will usually adjust G so that N is its level.
+    N           : The above integer N.
+    index       : Index of G in GL(2,Z/NZ).
+    det_index   : Index of det(G) in the unit group of Z/NZ.
+    H           : The intersection of G with SL(2,Z/NZ) which we can view as an open subgroup of SL(2,Zhat).
+                    The group H will be given modulo its level in SL(2,Zhat).
+    gl2level    : The level of G viewed as a subgroup of GL(2,Zhat)
+    sl2level    : The level of H viewed as a subgroup of SL(2,Zhat).
+    has_neg_one : Boolean that is true when G contains -I.
+    KG          : The number field Q(zeta_N)^det(G).
+    KG_degree   : Degree of KG over Q.
+    KG_integral_basis               : An integral basis of KG.
+    KG_integral_basis_cyclotomic    : The same integral basis given in Q(zeta_N).
+
+    is_unentangled : Boolean that is true if G is "unentangled", i.e, as a subgroup of GL(2,Zhat) is the 
+                        direct product of its p-adic projections.
+    _______________________________________________________
+
+    Let X_Gamma:=Gamma\H^* be the smooth compact Riemann surface, where Gamma=Gamma_G is the congruence subgroup of SL_2(Z)
+    consisting of matrices whose image modulo N lie in G.  We can identify the complex points X_G(C) with X_Gamma.
+
+    genus       : Genus of X_G.
+
+    v2          : Number of elliptic points of order 2 for X_Gamma.
+    v3          : Number of elliptic points of order 3 for X_Gamma.
+    vinf        : Number of cusps of X_Gamma.
+    degree      : Index of \pm Gamma in SL(2,ZZ). 
+    
+    cusps       : A sequence of matrices A in SL(2,Z) so that A*infty represent the cusps of X_Gamma.
+    regular     : A sequence of booleans (ordered the same as "cusps") indicating whether the corresponding cusp is regular.
+    widths      : Sequence consisting of the widths of the cusps (ordered the same as "cusps").
+    
+    cusp_orbits     : Orbits of cusps of X_G under the action of the absolute Galois group of KG.
+    cusp_to_orbit   : Given a cusp, gives the index of its orbit.
+
+    CPname      : If congruence subgroup Gamma has genus at most Gamma, then CPname is the Cummins-Pauli label of \pm Gamma.
+    _______________________________________________________
+    
+    k           : An integer > 1 that will be a weight of a space of modular forms.
+    dimMk       : Dimension of M_k(Gamma) over C;  same as dimension of M_{k,G}:=M_k(Gamma(N),Q(zeta_N))^G over KG.
+    dimSk       : Dimension of S_k(Gamma) over C.
+    
+    prec        : A seqeuence of positive integers which keeps track of how many terms of q-expansions have been computed at the cusps.
+    prec_sturm  : An sequence occurring in our version of Sturm's bound.
+
+    F           : A sequence giving a basis of M_{k,G} as a Q-vector space.  The first dimMk elements will give a basis over C.
+
+       Each F[i] is a modular form; it is given as a sequence of q-expansions at the cusps (with respect to the matrices in "cusps").
+       Each q-expansion is a power series in the variable qw:=q^(1/e) with coefficients in Q(zetaN), where w is the width of the cusp being considered. 
+       
+    F0          : Same as above, but for the Q-subspace of M_{k,G} given by prescribed vanishing conditions at the cusps (for example, cusp forms).
+                    The first #F0/KG_degree terms will be a bsisi over C.
+    mult        : A sequence keeping track of the vanishing conditions imposed.
+
+    psi         :  Whenever we compute a model for X_G in some projective space P^n, we use this entry to record the defining equations.
+
+*/
+  	     
 
 function LiftMatrix(A,n)
  /* 
@@ -174,9 +244,16 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         X`cusps:=cusps; 
         X`vinf:=#cusps; // number of cusps
         
-        X`widths:=[#c: c in C];  // Widths for group H0
-        X`regular:= [ SL2!cusps[i]*(SL2![1,X`widths[i],0,1])*(SL2!cusps[i])^(-1) in H : i in [1..X`vinf] ];
-        assert &+X`widths eq X`degree;
+        widths0:=[#c: c in C];  // Widths for group H0
+        X`regular:= [ SL2!cusps[i]*(SL2![1,widths0[i],0,1])*(SL2!cusps[i])^(-1) in H : i in [1..X`vinf] ];
+        assert &+widths0 eq X`degree;
+        X`widths:=widths0;
+        for i in [1..X`vinf] do  
+            if not X`regular[i] then 
+                X`widths[i]:= 2*X`widths[i]; 
+                // We adjust the width for irregular cusps
+            end if; 
+        end for;
 
         // Compute number of elliptic points of order 2
         B:=SL2![0,1,-1,0];
@@ -272,8 +349,9 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         N0:=SL2Level(H0);
         H0:=SL2Project(H0,N0);
         I:=[i: i in [1..#cp_data] | cp_data[i]`genus eq X`genus and cp_data[i]`level eq N0 and 
-                                    cp_data[i]`index eq SL2Index(H0) and Sort(cp_data[i]`cusps) eq Sort(X`widths)];
-        assert #I ne 0;                                            
+                                    cp_data[i]`index eq SL2Index(H0) and Sort(cp_data[i]`cusps) eq Sort(widths0)];
+        assert #I ne 0;
+
         if #I eq 1 then
             X`CPname:=cp_data[I[1]]`name;
         else
@@ -1343,7 +1421,6 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     widths:=M`widths;
     vinf:=M`vinf;
 
-     
     // We first compute the dimensions of M_k(Gamma_G) and S_k(Gamma_G), respectively, over C.
     if k eq 2 then
         d:=M`genus+vinf-1;  // Shimura (Introduction to the arithmetic theory of automorphic_functions, Theorem 2.23)
@@ -1433,24 +1510,30 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     Gm:=GL2Project(G,m);
         Q,iQ:=quo<Gm|H>;
         A_,i_:=AbelianGroup(Q);
-    gens_Gm_mod_H:=[(A_.i @@ i_) @@ iQ: i in Reverse([1..Ngens(A_)])];
+    gens_Gm_mod_H:=[(A_.i @@ i_) @@ iQ: i in Reverse([1..Ngens(A_)])];  // elements of Gm that generate Gm/H
+    gens_Gm_mod_H_det:=[ Integers()!Determinant(g): g in gens_Gm_mod_H];
+
+    // Data that we compute once and will reuse.
     GL2:=GL2Ambient(m);
     bb:=[ [ g*cusps[e]*GL2![1,0,0,1/Determinant(g)] : g in gens_Gm_mod_H] : e in [1..M`vinf] ];
-
     gens_Gm_mod_H_pairs:=[ [FindCuspData(M,bb[e][i]) : e in [1..M`vinf]] :  i in [1..#gens_Gm_mod_H]];   
-    gens_Gm_mod_H_det:=[ Integers()!Determinant(g): g in gens_Gm_mod_H];
 
     ee:=[m div w: w in M`widths];    
     R_Om<qw>:=PowerSeriesRing(Om);  
 
-    function RightActionOnModularForm(f,pairs,d)
+    function RightActionOnModularForm(f,triples,d)
+        /* We have a modular form f with q-expansions given at the cusps;
+           there is a matrix A with determinant 1 that produced "triple" using the function "FindCuspData";
+           d is an integer.
+           This function computes the q-expansions of f*B where B=A*[1,0;0,d].
+        */
             R:=Parent(f[1]);
             ff:=[];
             for e in [1..M`vinf] do
-                a1:=pairs[e][1];
-                a2:=pairs[e][2];
-                assert widths[e] eq widths[a1]; 
-                sgn:=pairs[e][3];
+                a1:=triples[e][1];
+                a2:=triples[e][2];
+                sgn:=triples[e][3];
+                assert widths[e] eq widths[a1];                 
                 f1:=sgn^M`k *  R_Om![power_of_zetam(ee[a1]*a2*i) * Coefficient(f[a1],i) : i in [0..(Prec-1) div ee[a1]]];
                 f1:= &+[ power_of_zetam(m1*d) * R_Om![Coefficient(f1,i)[m1+1] : i in [0..(Prec-1) div ee[a1]]] : m1 in [0..EulerPhi(m)-1] ];
                 ff cat:= [f1];
@@ -1461,11 +1544,15 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     E:=EisensteinFormsWeight1(m, Prec);  // Compute Eisenstein series of weight 1 and level m. 
  
     ConjH:=[Conjugate(H, A) :  A in cusps];     // Groups A^(-1)*H*A with A running over matrices in cusps.
-    if SL2ContainsNegativeOne(H) then e:=-1; else e:=1; end if;
-    U:=[sub<SL2| [[e,0,0,e], [1,M`widths[i],0,1]]> : i in [1..M`vinf]];  
-    if SL2ContainsNegativeOne(H) eq false then
-        U:=[U[i] meet ConjH[i] : i in [1..M`vinf]];
+    if SL2ContainsNegativeOne(H) then 
+        e:=-1; 
+    else 
+        e:=1; 
     end if;
+    U:=[sub<SL2| [[e,0,0,e], [1,M`widths[i],0,1]]> : i in [1..M`vinf]];  
+    // The group U[i] will fix the q-expansion at the i-th cusp.
+
+
     RR:=[ [a^(-1): a in Transversal(ConjH[i],U[i])] : i in [1..M`vinf] ];      
     // RR[i] is a set of representatives of the cosets ConjH[i]/U[i].
 
@@ -1479,11 +1566,11 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         Our approach is to compute the rank of its reduction at several small primes;
         the following keeps track of this info.
     */
-    p:=2;
-    Iota:=[];
-    counter:=0;
+    p:=2;       // Current prime
+    Iota:=[];   // Sequence of embeddings of finite fields arising from our p
+    counter:=0; // Keeps track of number of primes used; needed so we can occasionally consider more
 
-    mult:=[(Prec-1) div ee[i] : i in [1..M`vinf]];
+    mult:=[(Prec-1) div ee[i] : i in [1..M`vinf]]; // precision needed at cusps
 
     V:=[];
     W:=[];
@@ -1493,14 +1580,14 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     handled:=[];
     conjugates:=[];
 
+    // As we construct modular forms, we record all the computed coefficients for later use.
     vector_of_constructed_modular_forms:=[];
-
-    basis_temp:=[];
 
     done:=false;
     count:=0;
     while not done do   
         if count mod prime_tolerance eq 0 then  
+            //TODO:  choose p so that residue field is smaller?
 
             // We compute the rank of matrices modulo more primes as we proceed without success.  
             // We consider prime ideals P of Om=Z[zeta_m].  We take it relative to m
@@ -1512,14 +1599,12 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             FF_P,iota:=ResidueClassField(P);
             Iota cat:= [iota];
             
-
             V:=V cat [KSpace(FF_P,&+[a+1: a in mult])];
             W_tot:= W_tot cat [* sub<V[#V]|[]> *];
             WW:=WW cat [* [**] *];
             handled:=handled cat [[]];
         end if;
         count:=count+1;
-
 
         a:=random{a: a in RSpace(Integers(m),2*k) | a notin S and &and[ a[2*i-1] ne 0 or a[2*i] ne 0 : i in [1..k] ] };  
         //TODO: FIX: pretty quick but will freeze if set becomes empty (incredible unlikely!)
@@ -1534,7 +1619,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             e:=m div M`widths[i]; 
             m1:=(Prec-1) div e;  
             f:=#U[i] * &+[Coefficient(f,e*j)*qw^j : j in [0..m1]] + O(qw^(m1+1));
-            ff:= ff cat [f];            
+            ff:= ff cat [f];           
         end for;
 
         // We record the constructed modular form ff of M_{k,H}
@@ -1554,8 +1639,8 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         conjugates:=conjugates cat [AssociativeArray()];
         assert #conjugates eq count;
         conjugates[count][[]]:=ff;
-        for j in [1..#Iota] do // index our prime ideals used
-            for l in [1..count] do // index our a's considered
+        for j in [1..#Iota] do // index of our prime ideals used
+            for l in [1..count] do // index of our a's considered
                 if l in handled[j] then
                     continue l;
                 end if;
@@ -1591,11 +1676,12 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             end for;
         end for;
 
-        dim_seq:=[Dimension(W_tot[j]): j in [1..#Iota]]; 
+        dim_seq:=[Dimension(W_tot[j]): j in [1..#Iota]];        
         done:=M`dimMk in dim_seq;
         // We are done when we have found a basis of M_{k,H} over Km (by reducing modulo a prime).
     end while;
-    
+
+
     dims:=[];
     _,j:=Maximum(dim_seq);
     I:=[];
