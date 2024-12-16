@@ -1939,6 +1939,7 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
             end for;
             return ff;
     end function;
+    
 
     // Compute Eisenstein series of weight 1 and level m to required increased precision     
     E:=EisensteinFormsWeight1(m, Maximum([prec1[i]*(m div M`widths[i]) : i in [1..M`vinf]]));  
