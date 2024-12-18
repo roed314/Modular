@@ -1,67 +1,67 @@
 AttachSpec("EarlierCode/magma.spec");   // Andrew Sutherland's group theory package
 
-// load Cummins-Pauli data for congruence subgroups of genus at most 24  
-filename:="CPdata/CPdata.dat";  
-I:=Open(filename, "r"); 
-_,cp_data:=ReadObjectCheck(I); 
+// load Cummins-Pauli data for congruence subgroups of genus at most 24
+filename:="CPdata/CPdata.dat";
+I:=Open(filename, "r");
+_,cp_data:=ReadObjectCheck(I);
 
-/*  
+/*
     The following is the list of all congruence subgroups of SL(2,Z), up to conjugacy in GL(2,Z),
-    that contain -I, have genus at least 3, and have gonality 2.  They are given by their 
+    that contain -I, have genus at least 3, and have gonality 2.  They are given by their
     Cummins-Pauli label.  Congruence subgroups of genus 1 and 2 always have gonality 2.
 */
-gonality_equals_2:=[ "8B3", "10B3", "12C3", "12D3", "12E3", "12F3", "12G3", "12H3", "12K3", 
-    "12L3", "14A3", "14C3", "14F3", "15F3", "15G3", "16B3", "16C3", "16D3", "16E3", "16F3", 
-    "16I3", "16J3", "16M3", "16S3", "18A3", "18C3", "18F3", "18G3", "20C3", "20F3", "20G3", 
-    "20H3", "20I3", "20J3", "20M3", "20O3", "21A3", "21B3", "21D3", "24A3", "24B3", "24C3", 
-    "24G3", "24I3", "24K3", "24L3", "24M3", "24S3", "24U3", "24V3", "24W3", "28C3", "28E3", 
-    "30B3", "30G3", "30J3", "30K3", "30L3", "32B3", "32C3", "32D3", "32H3", "32K3", "32M3", 
-    "33C3", "34B3", "35A3", "36E3", "36F3", "36G3", "39A3", "40D3", "40E3", "40F3", "40I3", 
-    "41A3", "42E3", "48C3", "48E3", "48F3", "48H3", "48I3", "48J3", "48M3", "50A3", "54A3", 
-    "60C3", "60D3", "64A3", "96A3", "18B4", "25A4", "25D4", "32B4", "36C4", "42A4", "44B4", 
-    "47A4", "48C4", "50A4", "50D4", "10A5", "14C5", "16G5", "18A5", "24A5", "24D5", "26A5", 
-    "30C5", "30F5", "36A5", "36B5", "36H5", "40A5", "42A5", "44B5", "45A5", "45C5", "46A5", 
-    "48A5", "48E5", "48F5", "48G5", "48H5", "50A5", "50D5", "50F5", "52B5", "54A5", "57A5", 
-    "58A5", "59A5", "60A5", "96A5", "48A6", "71A6", "32E7", "48N7", "56B7", "64D7", "82B7", 
+gonality_equals_2:=[ "8B3", "10B3", "12C3", "12D3", "12E3", "12F3", "12G3", "12H3", "12K3",
+    "12L3", "14A3", "14C3", "14F3", "15F3", "15G3", "16B3", "16C3", "16D3", "16E3", "16F3",
+    "16I3", "16J3", "16M3", "16S3", "18A3", "18C3", "18F3", "18G3", "20C3", "20F3", "20G3",
+    "20H3", "20I3", "20J3", "20M3", "20O3", "21A3", "21B3", "21D3", "24A3", "24B3", "24C3",
+    "24G3", "24I3", "24K3", "24L3", "24M3", "24S3", "24U3", "24V3", "24W3", "28C3", "28E3",
+    "30B3", "30G3", "30J3", "30K3", "30L3", "32B3", "32C3", "32D3", "32H3", "32K3", "32M3",
+    "33C3", "34B3", "35A3", "36E3", "36F3", "36G3", "39A3", "40D3", "40E3", "40F3", "40I3",
+    "41A3", "42E3", "48C3", "48E3", "48F3", "48H3", "48I3", "48J3", "48M3", "50A3", "54A3",
+    "60C3", "60D3", "64A3", "96A3", "18B4", "25A4", "25D4", "32B4", "36C4", "42A4", "44B4",
+    "47A4", "48C4", "50A4", "50D4", "10A5", "14C5", "16G5", "18A5", "24A5", "24D5", "26A5",
+    "30C5", "30F5", "36A5", "36B5", "36H5", "40A5", "42A5", "44B5", "45A5", "45C5", "46A5",
+    "48A5", "48E5", "48F5", "48G5", "48H5", "50A5", "50D5", "50F5", "52B5", "54A5", "57A5",
+    "58A5", "59A5", "60A5", "96A5", "48A6", "71A6", "32E7", "48N7", "56B7", "64D7", "82B7",
     "96A7", "93A8", "50A9", "50D9", "96B9", "48B11", "72A11", "96B11"];
 
-/*  
+/*
     The following is the list of all congruence subgroups of SL(2,Z), up to conjugacy in GL(2,Z),
-    that contain -I, have genus at least 5, and have gonality 3.  They are given by their 
+    that contain -I, have genus at least 5, and have gonality 3.  They are given by their
     Cummins-Pauli label.  Congruence subgroups of genus 3 and 4 that do not have gonality 2
     have gonality 3.
 */
-gonality_equals_3:=[ "54C5", "16A6", "18A6", "18D6", "24D6", "27A6", "28D6", "28E6", 
-    "30C6", "32A6", "36C6", "36H6", "36J6", "36K6", "39A6", "45D6", "54A6", "54B6", "56D6", 
-    "64A6", "84A6", "108A6", "27B7", "27C7", "30D7", "42M7", "24A8", "24B8", "36H8", "36I8", 
-    "36J8", "36K8", "48A8", "48C8", "48E8", "72F8", "72G8", "84A8", "96A8", "108A8", "108B8", 
+gonality_equals_3:=[ "54C5", "16A6", "18A6", "18D6", "24D6", "27A6", "28D6", "28E6",
+    "30C6", "32A6", "36C6", "36H6", "36J6", "36K6", "39A6", "45D6", "54A6", "54B6", "56D6",
+    "64A6", "84A6", "108A6", "27B7", "27C7", "30D7", "42M7", "24A8", "24B8", "36H8", "36I8",
+    "36J8", "36K8", "48A8", "48C8", "48E8", "72F8", "72G8", "84A8", "96A8", "108A8", "108B8",
     "144A8", "15A10", "36A10", "36C10", "42G10", "72A10", "75A10", "108A10", "108C10", "108A12"];
 
-/*  
+/*
     The following is the list of all congruence subgroups of SL(2,Z), up to conjugacy in GL(2,Z),
-    that contain -I and for which the canonical model is isomorphic to a smooth plane quinitic. 
-    They are given by their Cummins-Pauli label.  
+    that contain -I and for which the canonical model is isomorphic to a smooth plane quintic.
+    They are given by their Cummins-Pauli label.
 */
 smooth_plane_quintic:=["75A6","75D6"];
 
 
 /*
-    A record of type "ModularCurveRec" encodes information about the curve X_G where G is a subgroup of GL(2,Z/NZ).   
+    A record of type "ModularCurveRec" encodes information about the curve X_G where G is a subgroup of GL(2,Z/NZ).
     The curve X_G is smooth, projective and geometrically irreducible, and defined over the number field K_G=Q(zeta_N)^det(G).
 */
 
 ModularCurveRec := recformat<
-    G, H :GrpMat,  
+    G, H :GrpMat,
 
-    N, index, degree, det_index, genus, v2, v3, vinf, sl2level, gl2level, k, dimMk, dimSk :RngIntElt,   
+    N, index, degree, det_index, genus, v2, v3, vinf, sl2level, gl2level, k, dimMk, dimSk :RngIntElt,
 
-    cusps, widths, regular, cusp_orbits, cusp_to_orbit, F, F0,  psi, mult, prec, prec_sturm, modular_form_data :SeqEnum,  
+    cusps, widths, regular, cusp_orbits, cusp_to_orbit, F, F0,  psi, mult, prec, prec_sturm, modular_form_data :SeqEnum,
 
-    has_neg_one,  is_unentangled: BoolElt,                                                              
-      
+    has_neg_one,  is_unentangled: BoolElt,
+
     model_degree : RngIntElt,  //write description
 
-    KG: FldNum, 
+    KG: FldNum,
     KG_degree: RngIntElt,
     KG_integral_basis, KG_integral_basis_cyclotomic    : SeqEnum,
 
@@ -73,18 +73,18 @@ ModularCurveRec := recformat<
 
 
     // The below entries are currently unused and should be pruned.
-    C:Crv, 
+    C:Crv,
     map_to_jline, pi :List,
     has_point, has_infinitely_many_points, has_nonCM_point,is_agreeable,extraneous, is_serre_type_model :BoolElt,
-    commutator_index, f, trdet, pts :RngIntElt,   
+    commutator_index, f, trdet, pts :RngIntElt,
     key,gens, exceptional_jinvariants, Gc_decomp, high_genus_model, cyclic_invariants, cyclic_models, cyclic_generators, cover_with_same_commutator_subgroup : SeqEnum,
     Hc, Gc, Hc_gen :GrpMat
->;	 
+>;
 
-/*                            
+/*
  DESCRIPTION OF SOME OF THE ENTRIES:
     _______________________________________________________
-    
+
     G           : A subgroup of GL(2,Z/NZ). We will sometimes view it as an open subgroup of GL(2,Zhat).
                     We will usually adjust G so that N is its level.
     N           : The above integer N.
@@ -100,7 +100,7 @@ ModularCurveRec := recformat<
     KG_integral_basis               : An integral basis of KG.
     KG_integral_basis_cyclotomic    : The same integral basis given in Q(zeta_N).
 
-    is_unentangled : Boolean that is true if G is "unentangled", i.e, as a subgroup of GL(2,Zhat) is the 
+    is_unentangled : Boolean that is true if G is "unentangled", i.e, as a subgroup of GL(2,Zhat) is the
                         direct product of its p-adic projections.
     _______________________________________________________
 
@@ -112,30 +112,30 @@ ModularCurveRec := recformat<
     v2          : Number of elliptic points of order 2 for X_Gamma.
     v3          : Number of elliptic points of order 3 for X_Gamma.
     vinf        : Number of cusps of X_Gamma.
-    degree      : Index of \pm Gamma in SL(2,ZZ). 
-    
+    degree      : Index of \pm Gamma in SL(2,ZZ).
+
     cusps       : A sequence of matrices A in SL(2,Z) so that A*infty represent the cusps of X_Gamma.
     regular     : A sequence of booleans (ordered the same as "cusps") indicating whether the corresponding cusp is regular.
     widths      : Sequence consisting of the widths of the cusps (ordered the same as "cusps").
-    
+
     cusp_orbits     : Orbits of cusps of X_G under the action of the absolute Galois group of KG.
     cusp_to_orbit   : Given a cusp, gives the index of its orbit.
 
     CPname      : If congruence subgroup Gamma has genus at most Gamma, then CPname is the Cummins-Pauli label of \pm Gamma.
     _______________________________________________________
-    
+
     k           : An integer > 1 that will be a weight of a space of modular forms.
     dimMk       : Dimension of M_k(Gamma) over C;  same as dimension of M_{k,G}:=M_k(Gamma(N),Q(zeta_N))^G over KG.
     dimSk       : Dimension of S_k(Gamma) over C.
-    
+
     prec        : A seqeuence of positive integers which keeps track of how many terms of q-expansions have been computed at the cusps.
     prec_sturm  : An sequence occurring in our version of Sturm's bound.
 
     F           : A sequence giving a basis of M_{k,G} as a Q-vector space.  The first dimMk elements will give a basis over C.
 
        Each F[i] is a modular form; it is given as a sequence of q-expansions at the cusps (with respect to the matrices in "cusps").
-       Each q-expansion is a power series in the variable qw:=q^(1/e) with coefficients in Q(zetaN), where w is the width of the cusp being considered. 
-       
+       Each q-expansion is a power series in the variable qw:=q^(1/e) with coefficients in Q(zetaN), where w is the width of the cusp being considered.
+
     F0          : Same as above, but for the Q-subspace of M_{k,G} given by prescribed vanishing conditions at the cusps (for example, cusp forms).
                     The first #F0/KG_degree terms will be a bsisi over C.
     mult        : A sequence keeping track of the vanishing conditions imposed.
@@ -143,11 +143,11 @@ ModularCurveRec := recformat<
     psi         :  Whenever we compute a model for X_G in some projective space P^n, we use this entry to record the defining equations.
 
 */
-  	     
+
 
 function LiftMatrix(A,n)
- /* 
-    Input: 
+ /*
+    Input:
         A: matrix in GL(2,Z/NZ) with N>1,
         n: an integer that is congruent to det(A) modulo N.
     Output:
@@ -168,9 +168,9 @@ function LiftMatrix(A,n)
         c:=c+N*t;
         assert GCD(a,c) eq 1;
     end if;
-    g:= (n-(a*d-b*c)) div N;  
+    g:= (n-(a*d-b*c)) div N;
     _,x0,y0:=Xgcd(a,c);
-    x:=g*x0; y:=g*y0;  
+    x:=g*x0; y:=g*y0;
     B:=Matrix([[a,b-N*y],[c,d+N*x]]);
     assert GL(2,Integers(N))!B eq A and Determinant(B) eq n;  // check!
     return B;
@@ -182,38 +182,38 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         G   : an open subgroup of GL(2,Zhat)
 	    H   : the open subgroup of SL(2,Zhat) that is the intersection of G with SL(2,Zhat)
 
-    Output:  
-        A record of type "ModularCurveRec" that encodes the modular curve X_G with some 
+    Output:
+        A record of type "ModularCurveRec" that encodes the modular curve X_G with some
         basic and useful invariants computed.
     }
 
     // We reduce G modulo its level
-    gl2level:=GL2Level(G); 
+    gl2level:=GL2Level(G);
     N:=gl2level;
     G:=GL2Project(G,gl2level);
     if not assigned G`Order then G`Order:=GL2Order(G); end if;
 
     //We reduce H modulo its level
-    m:=SL2Level(H);    
+    m:=SL2Level(H);
     H:=SL2Project(H,m);
     if not assigned H`Order then H`Order:=SL2Order(H); end if;
 
     // Our modular curve
     X:=rec<ModularCurveRec |  N:=N, G:=G, H:=H, sl2level:=m, gl2level:=gl2level>;
 
-    // To compute many of our quantities, we can adjoin -I to H; we call the group H0.    
+    // To compute many of our quantities, we can adjoin -I to H; we call the group H0.
     if SL2ContainsNegativeOne(H) then
         X`has_neg_one:=true;
         H0:=H;
     else
         X`has_neg_one:=false;
-        H0:=SL2IncludeNegativeOne(H);  
+        H0:=SL2IncludeNegativeOne(H);
         H0`SL:=true;
     end if;
-    H0`Order:=SL2Order(H0); 
+    H0`Order:=SL2Order(H0);
 
     X`index:=GL2Index(G);
-    X`degree:=SL2Index(H0);   
+    X`degree:=SL2Index(H0);
     X`det_index:=GL2DeterminantIndex(G);
 
     if m eq 1 then
@@ -227,37 +227,37 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         X`v3:=1;
         X`genus:=0;
     else
-        // main case        
+        // main case
         SL2:=SL2Ambient(m);
-        T,phi:=RightTransversal(SL2, H0);  
+        T,phi:=RightTransversal(SL2, H0);
         psi:=map<T->[1..#T] | {<T[i],i>: i in [1..#T]} >;
-        f:=phi*psi;  
+        f:=phi*psi;
 
         // Compute the cusps and their widths
         B:=SL2![1,1,0,1];
-        sigma:=Sym(#T)![f(t*B): t in T];   // permutation that describes how B acts on the set H0\SL2 via right multiplication  
+        sigma:=Sym(#T)![f(t*B): t in T];   // permutation that describes how B acts on the set H0\SL2 via right multiplication
         C:=CycleDecomposition(sigma);
         cusps0:=[Rep(c): c in C];
-        cusps :=[ T[i] : i in cusps0]; 
+        cusps :=[ T[i] : i in cusps0];
         cusps:=[ LiftMatrix(A,1): A in cusps];  // each cusp given as a matrix in SL(2,Z)
-        
-        X`cusps:=cusps; 
+
+        X`cusps:=cusps;
         X`vinf:=#cusps; // number of cusps
-        
+
         widths0:=[#c: c in C];  // Widths for group H0
         X`regular:= [ SL2!cusps[i]*(SL2![1,widths0[i],0,1])*(SL2!cusps[i])^(-1) in H : i in [1..X`vinf] ];
         assert &+widths0 eq X`degree;
         X`widths:=widths0;
-        for i in [1..X`vinf] do  
-            if not X`regular[i] then 
-                X`widths[i]:= 2*X`widths[i]; 
+        for i in [1..X`vinf] do
+            if not X`regular[i] then
+                X`widths[i]:= 2*X`widths[i];
                 // We adjust the width for irregular cusps
-            end if; 
+            end if;
         end for;
 
         // Compute number of elliptic points of order 2
         B:=SL2![0,1,-1,0];
-        C:=CycleDecomposition(Sym(#T)![f(t*B): t in T]); 
+        C:=CycleDecomposition(Sym(#T)![f(t*B): t in T]);
         X`v2:=#[c: c in C | #c eq 1];
 
         // Compute number of elliptic points of order 3
@@ -266,7 +266,7 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         X`v3:=#[c: c in C | #c eq 1];
 
         // Genus of X_H.   See Prop 1.40 of Shimura, "Introduction to the arithmetic theory of automorphic functions".
-        X`genus:=Integers()!( 1 + X`degree/12 - X`v2/4 - X`v3/3 - X`vinf/2 );   
+        X`genus:=Integers()!( 1 + X`degree/12 - X`v2/4 - X`v3/3 - X`vinf/2 );
 
 
         //  We have already computed the cusps of X_G.
@@ -280,7 +280,7 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
             d:=u[1,1];
             b:=GL2![1,0,0,d];
             flag:=exists(g){g: g in G | Determinant(g) eq d}; //slow?
-            
+
             sigma:=[FindCuspData(X,SL2!((GL2!g)^(-1)*GL2!X`cusps[i]*b))[1]: i in [1..X`vinf]];
             s:=s cat [sigma];
         end for;
@@ -303,7 +303,7 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
     deg_KG:= GL2DeterminantIndex(G);
     if deg_KG gt 1 then
         // Find an explicit description of the field K_G
-        
+
         T:=[Integers()!u[1,1]: u in GL2DeterminantImage(G)];
         L:=sub<KN|[KN!1]>;
         i:=0;
@@ -313,12 +313,12 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
             L:=sub<KN| Generators(L) cat [a]>;
         end while;
         L:=OptimizedRepresentation(L); //improve presentation of field
-        if Degree(L) ne 1 then        
+        if Degree(L) ne 1 then
             L<a>:=L;
         end if;
         assert L subset KN;
 
-        X`KG:=L; 
+        X`KG:=L;
         X`KG_degree:=Degree(X`KG);
         assert X`KG_degree eq AbsoluteDegree(X`KG) and X`KG_degree eq deg_KG;
 
@@ -335,7 +335,7 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
         X`KG_degree:=1;
         X`KG_integral_basis_cyclotomic:=[CyclotomicField(1)!1];
         X`KG_integral_basis:=[CyclotomicField(1)!1];
-    end if;    
+    end if;
 
 
     if X`genus le 24 then
@@ -348,7 +348,7 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
 
         N0:=SL2Level(H0);
         H0:=SL2Project(H0,N0);
-        I:=[i: i in [1..#cp_data] | cp_data[i]`genus eq X`genus and cp_data[i]`level eq N0 and 
+        I:=[i: i in [1..#cp_data] | cp_data[i]`genus eq X`genus and cp_data[i]`level eq N0 and
                                     cp_data[i]`index eq SL2Index(H0) and Sort(cp_data[i]`cusps) eq Sort(widths0)];
         assert #I ne 0;
 
@@ -388,14 +388,14 @@ intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
     GL2:=GL2Ambient(m);
 
     Gm_mod_H,phi:=Transversal(Gm,H);
-        bb:=[ [ g*(GL2!X`cusps[e])*GL2![1,0,0,1/Determinant(g)] : e in [1..X`vinf]] : g in Gm_mod_H ];
-    Gm_mod_H_pairs:=[ [FindCuspData(X,bb[i][e]) : e in [1..X`vinf]] :  i in [1..#Gm_mod_H]];   
+    bb:=[ [ g*(GL2!X`cusps[e])*GL2![1,0,0,1/Determinant(g)] : e in [1..X`vinf]] : g in Gm_mod_H ];
+    Gm_mod_H_pairs:=[ [FindCuspData(X,bb[i][e]) : e in [1..X`vinf]] :  i in [1..#Gm_mod_H]];
     Gm_mod_H_det:=[ Integers()!Determinant(g): g in Gm_mod_H];
     N:=#BaseRing(G);
     G_mod_H:=Transversal(G,SL2Lift(H,N));
     cosets_det:=[[Integers()!Determinant(g): g in G_mod_H | phi(Gm!g) eq Gm_mod_H[j]]: j in [1..#Gm_mod_H]];
     X`Gm_mod_H:=Gm_mod_H;
-    X`Gm_mod_H_pairs:=Gm_mod_H_pairs; 
+    X`Gm_mod_H_pairs:=Gm_mod_H_pairs;
     X`Gm_mod_H_det:=Gm_mod_H_det;
     X`cosets_det:=cosets_det;
 
@@ -407,12 +407,12 @@ intrinsic CreateModularCurveRec(N::RngIntElt, gens::SeqEnum) -> Rec
     return CreateModularCurveRec(sub<GL2Ambient(N)|gens>);
 end intrinsic;
 
-intrinsic CreateModularCurveRec(G::GrpMat) -> Rec   
+intrinsic CreateModularCurveRec(G::GrpMat) -> Rec
     {CreateModularCurveRec with H computed directly}
     H:=SL2Intersection(G);
     _,H:=SL2Level(H);
     return CreateModularCurveRec(G,H);
-end intrinsic; 
+end intrinsic;
 
 intrinsic ModularFormToSequence(M:: Rec, f::SeqEnum, mult::SeqEnum, N::RngIntElt : OverQ:=false) -> SeqEnum
     {
@@ -430,12 +430,12 @@ intrinsic ModularFormToSequence(M:: Rec, f::SeqEnum, mult::SeqEnum, N::RngIntElt
     R<qw>:=PowerSeriesRing(KN);
     f:=[R!a: a in f];
     if not OverQ then
-            return [ Coefficient(f[a[2]],a[1] div ee[a[2]]) : a in A];
-    else 
-            return &cat[ Eltseq(Coefficient(f[a[2]],a[1] div ee[a[2]])) : a in A];
+        return [ Coefficient(f[a[2]],a[1] div ee[a[2]]) : a in A];
+    else
+        return &cat[ Eltseq(Coefficient(f[a[2]],a[1] div ee[a[2]])) : a in A];
     end if;
 end intrinsic;
-        
+
 intrinsic SequenceToModularForm(M,v,mult,N : OverQ:=false) -> Rec
     {
         This is the reverse process of the function "ModularFormToSequence".
@@ -473,27 +473,27 @@ intrinsic EisensteinFormsWeight1(N, prec) -> Assoc
         N:      an integer > 2
         prec:   a positive integer
     Output:
-       An array E indexed by pairs [a,b] with a and b in Z/NZ.  
+       An array E indexed by pairs [a,b] with a and b in Z/NZ.
        The term of E indexed by [a,b] is 2N times the q-expansion of the Eisenstein series E_(a,b)^1 up to O(qN^(prec));
        it is given as a power series in qN:=q^(1/N) with coefficients in the cyclotomic field Q(zeta_N).
 
        For the definition of the Eisenstein series see section 2 of "Fourier expansion at cusps" by Brunault and Neururer.
        Remark: the extra factor of 2N ensures that all the coefficients are integral.
     }
-    ZN:=Integers(N); 
-    M:=RSpace(ZN,2); 
+    ZN:=Integers(N);
+    M:=RSpace(ZN,2);
     K<z>:=CyclotomicField(N);
-    OK:=RingOfIntegers(K); 
+    OK:=RingOfIntegers(K);
     zeta:=OK!z;
     R<qN>:=PowerSeriesRing(OK);
-        
+
     powers_of_zeta_list:=[zeta^i: i in [0..N-1]];
     function power_of_zeta(i)
         return powers_of_zeta_list[(i mod N)+1];
     end function;
 
-    E:=AssociativeArray(); 
-    for a in [0..N-1] do       
+    E:=AssociativeArray();
+    for a in [0..N-1] do
         for b in [0..N-1] do
             e:=O(qN^(prec));
 
@@ -519,43 +519,43 @@ intrinsic EisensteinFormsWeight1(N, prec) -> Assoc
             // Add appropriate constant term.
             if a eq 0 and b ne 0 then  e:=e + OK!( N*(1+power_of_zeta(b))/(1-power_of_zeta(b)) ); end if;
             if a ne 0 then e:=e + N-2*a; end if;
-            E[M![a,b]]:=e;  
+            E[M![a,b]]:=e;
         end for;
     end for;
     return E;
 end intrinsic;
 
 intrinsic FindCuspData(M,A) -> SeqEnum
-    { 
-        Consider a modular curve M=X_G given by a subgroup G of GL_2(Zhat).  
-        Let H be the intersection of G with SL(2,Zhat).    
+    {
+        Consider a modular curve M=X_G given by a subgroup G of GL_2(Zhat).
+        Let H be the intersection of G with SL(2,Zhat).
 
-        Input:   
+        Input:
                 M   : a record of type "ModularCurveRec"
                 A   : a matrix in SL(2,Zhat) given modulo an integer divisible by M`sl2level.
 
-        Output:  a triple of integers [i,j,e] such that A and 
-                        e * M`cusps[i] * [1,1;0,1]^j 
+        Output:  a triple of integers [i,j,e] such that A and
+                        e * M`cusps[i] * [1,1;0,1]^j
                 lie in the same coset H\SL(2,Zhat), where cusps[i] is the fixed matrix in SL(2,Z)
-                describing the i-th cusp of M and e is 1 or -1.  
+                describing the i-th cusp of M and e is 1 or -1.
 
-                When G contains -I, we always choose e=1.       
+                When G contains -I, we always choose e=1.
     }
 
-    H:=M`H;  
-    m:=M`sl2level;  
+    H:=M`H;
+    m:=M`sl2level;
     if m eq 1 then
         return [1,0,1]; // easy when only one coset
     end if;
 
-    SL2:=SL2Ambient(m);  
+    SL2:=SL2Ambient(m);
     cusps:=[SL2!a: a in M`cusps];
-    B:=SL2![1,1,0,1];  
+    B:=SL2![1,1,0,1];
     A:=SL2!A;
 
     // Brute force search!
-    j:=0;  
-    repeat 
+    j:=0;
+    repeat
         for i in [1..#cusps] do
             if cusps[i]*B^j*A^(-1) in H then
                 return [i,j,+1];
@@ -567,12 +567,12 @@ intrinsic FindCuspData(M,A) -> SeqEnum
     until false;
 end intrinsic;
 
-intrinsic SturmPrecision(k::RngIntElt,M::Rec) -> FldRatElt  
-    {    
+intrinsic SturmPrecision(k::RngIntElt,M::Rec) -> FldRatElt
+    {
         Input: an integer k>1 and a record M that corresponds to a modular curve.
 
-        Let Gamma be the congruence subgroup corresponding to the modular curve.  For a 
-        modular form f on Gamma of weight k>1, let Z_f be the total number of zeros of f, counted with 
+        Let Gamma be the congruence subgroup corresponding to the modular curve.  For a
+        modular form f on Gamma of weight k>1, let Z_f be the total number of zeros of f, counted with
         multiplicities, at the cusps of the modular curve.
 
         Output: a rational number B such that Z_f>B if and only if f=0.
@@ -580,58 +580,58 @@ intrinsic SturmPrecision(k::RngIntElt,M::Rec) -> FldRatElt
     if IsEven(k) then
         B:=k/2*(2*M`genus-2)+M`v2*Floor(k/4)+M`v3*Floor(k/3)+ k/2*M`vinf;
     else
-        B:=k/2*(2*M`genus-2)+M`v2*Floor(k/2)/2+M`v3*Floor(2*k/3)/2+ k/2*M`vinf;  
+        B:=k/2*(2*M`genus-2)+M`v2*Floor(k/2)/2+M`v3*Floor(2*k/3)/2+ k/2*M`vinf;
     end if;
     return B;
 end intrinsic;
 
 intrinsic FindModularFormsWithVanishingConditions(M::Rec, mult::SeqEnum : lll:=[true,true], saturation:=true) -> Rec
     {
-    Input:  
+    Input:
         M    : a record of type "ModularCurveRec" with a Q-basis M`F of M_(k,G) already computed.
         mult : is a sequence of nonnegative integers of the same length as cusps:=M`cusps
 
-    Let V be the Q-subspace of M_(k,G) consisting of modular forms so that the vanishing of f at 
-    the i-th cusp cusps[i]*infty is at least mult[i] for all i.   
+    Let V be the Q-subspace of M_(k,G) consisting of modular forms so that the vanishing of f at
+    the i-th cusp cusps[i]*infty is at least mult[i] for all i.
 
     (the parameters "lll" and "saturation" give some control on how LLL and Saturation is done; these should pprobably be left alone!)
 
-    Output: 
+    Output:
             Returns the record M with the entry M`F0 being a basis of the Q-vector space V
-            with the same conventions as the basis M`F of M_(k,G).   
+            with the same conventions as the basis M`F of M_(k,G).
 
             Let d be the dimension of V over K_G (we will have d=#M`F0 div M`KG_degree).
-            The first d modular forms in the sequence M`F0 will be a basis of V over K_G (moreover, 
+            The first d modular forms in the sequence M`F0 will be a basis of V over K_G (moreover,
             they are linearly independent over Cthe complex numbers).
-            
+
     The precision of all modular forms will be increased on the fly if required to enforce vanishing conditions.
     }
-    if Type(lll) eq Type(true) then 
+    if Type(lll) eq Type(true) then
         lll:=[lll,lll];
     end if;
 
     N:=M`N;
     if M`sl2level gt 2 then
-        m:=M`sl2level;  
+        m:=M`sl2level;
     else
         m:=4;
     end if;
-                
+
     cusps:=M`cusps;
     widths:=M`widths;
     M`mult:=mult;
 
-    error if &or[m lt 0: m in mult], "Multiplicities need to be positive."; 
+    error if &or[m lt 0: m in mult], "Multiplicities need to be positive.";
     error if not assigned M`F or not assigned M`k, "Need modular forms computed before imposing vanishing conditions.";
 
-    if &and[m eq 0: m in mult] or #M`F eq 0 then 
+    if &and[m eq 0: m in mult] or #M`F eq 0 then
         // vanishing condition impose no constraints
-        M`F0:=M`F; return M; 
-    end if;  
+        M`F0:=M`F; return M;
+    end if;
 
     delete M`F0;
     ee:=[m div w: w in M`widths];
-  
+
     // We increase the precision of modular forms computed before proceeding.
     prec:=[mult[i]+1 : i in [1..M`vinf]];
     if &and[prec[i] le M`prec[i]: i in [1..M`vinf]] eq false then
@@ -642,7 +642,7 @@ intrinsic FindModularFormsWithVanishingConditions(M::Rec, mult::SeqEnum : lll:=[
     // cusp (the rest will be automatic).  We thus consider an analogous sequence mult1.
     mult1:=[0: i in [1..M`vinf]];
     for O in M`cusp_orbits do
-        max,j:=Maximum([mult[i]: i in O]); 
+        max,j:=Maximum([mult[i]: i in O]);
         mult1[O[j]]:=max;
     end for;
     assert &and[mult1[i] lt M`prec[i] : i in [1..M`vinf]];
@@ -700,21 +700,21 @@ intrinsic FindModularFormsWithVanishingConditions(M::Rec, mult::SeqEnum : lll:=[
         end if;
         if #b eq d then
             break i;
-        end if; 
+        end if;
     end for;
-    assert #I eq d; 
+    assert #I eq d;
     B1:=Matrix([B1[i]: i in I] cat [B1[i]: i in [1..Nrows(B1)] | i notin I]);
-    
+
     // The matrix C2 belows encodes how to go from the current FF to an improved version.
     _,U0:=EchelonForm(B0);
     _,U1:=EchelonForm(ChangeRing(B1,Rationals()));
     C2:=U1^(-1)*U0;
-    
+
     M`F0:= [ [&+[C2[i,j]*FF[j][e]: j in [1..#FF]]: e in [1..#cusps]] : i in [1..Nrows(C2)]];
-    
+
     // Keep track of data so we may increase the precision later without redoing the above computations.
     M`conversion_matrices:=[* M`conversion_matrices[i]: i in [1..2] *] cat [*C1, C2*];
- 
+
     // Check:
     for i in [1..M`vinf] do
         assert &and[Valuation(f[i]) ge mult[i] : f in M`F0];
@@ -763,9 +763,9 @@ intrinsic EvaluateAtMonomialsOfDegree(F,d) -> Assoc
 end intrinsic;
 
 intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, lll:=true, dim_only:=false, Proof:=false, k:=-1) -> SeqEnum
- { Input: 
+ { Input:
         M:  a record describing the modular curve X_G
-        F:  a finite sequence of modular forms in some M_(k,G) 
+        F:  a finite sequence of modular forms in some M_(k,G)
             (each modular form is given as a sequence of q-expansions corresponding to the cusps of the modular curve).
             We further assume all the q-expansions have coefficients in Q(zeta_N), where N=M`N.
         d:  a positive integer
@@ -774,16 +774,16 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
     of degree d with P(f_1,..,f_n)=0.
 
     Output:
-        -   A basis "psi" of a K_G-vector space of homogenous degree d polynomials in K_G[x_1,..,x_n] that contains 
+        -   A basis "psi" of a K_G-vector space of homogenous degree d polynomials in K_G[x_1,..,x_n] that contains
             a basis of V (and might be larger).
             If modular forms in F are computed to a high enough precision, psi will actually be a basis of V.
-        
+
         -   A boolean b that is true when the parameter "Proof" is set to true and an application of the Sturm bound
             verifies that psi is a basis of V.  When "Proof" is set to true, the parameter "k" needs to be the weight of the modular forms.
-        
-        An integer t so that for each h in psi, the sum of the orders of the zeros of h(f_1,..,f_n) at the cusps 
-        is at least t. (This integer and Sturm's bound can sometimes be used to prove vanishing and verify that psi 
-        is a basis of V)  
+
+        An integer t so that for each h in psi, the sum of the orders of the zeros of h(f_1,..,f_n) at the cusps
+        is at least t. (This integer and Sturm's bound can sometimes be used to prove vanishing and verify that psi
+        is a basis of V)
 
     When "OverQ" is true, a basis of V as a Q-vector space is returned instead.
     When "lll" is true, we use the LLL algorithm to try to make the polynomials nicer.
@@ -801,12 +801,12 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
 
     KN:=CyclotomicField(N);
     R<qw>:=PowerSeriesRing(KN);
-    F:=[[R!a: a in f] : f in F]; 
+    F:=[[R!a: a in f] : f in F];
 
     n:=#F;
     if n eq 0 then return [],true; end if;
     Pol<[x]>:=PolynomialRing(KN,n);
-    
+
     // Substitute modular forms into monomials of degree d; only keep track of cusps i in I.
     A:=[ EvaluateAtMonomialsOfDegree([f[i]: f in F],d) : i in I ];
 
@@ -818,11 +818,11 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
         end for;
     end for;
 
-    monic_powers:=Sort([k:k in Keys(A[1])]); 
+    monic_powers:=Sort([k:k in Keys(A[1])]);
     mon:=Sort([a: a in monic_powers | &+a eq d]); // labels for monomials of degree d
     monomials:=[ &*[x[i]^a[i]:i in [1..n]] : a in mon]; //monomials of degree d
 
-    beta1:=[];  
+    beta1:=[];
     for l in [1..#mon] do
         for j in [1..M`KG_degree] do
             beta1:=beta1 cat [[M`KG_integral_basis_cyclotomic[j]*A[i][mon[l]] : i in [1..#I]]];
@@ -839,9 +839,9 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
             end for;
         end for;
     end for;
-    
+
     B:=Matrix([LCM([Denominator(a): a in Eltseq(B[i])])*B[i]: i in [1..#B]]);
-    B:=ChangeRing(B,Integers());    
+    B:=ChangeRing(B,Integers());
     r:=Rank(B);
 
     if dim_only then
@@ -852,7 +852,7 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
         end if;
         return dim div M`KG_degree;
     end if;
-    
+
     // Find a prime so that B mod p has the same rank as B
     p:=0;
     repeat
@@ -865,7 +865,7 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
 
     B:=Matrix([B[i]: i in pivots]); // chose rows of B that span a space of the same dimension
 
-    C:=[v: v in Basis(NullspaceOfTranspose(ChangeRing(B,Rationals())))];    
+    C:=[v: v in Basis(NullspaceOfTranspose(ChangeRing(B,Rationals())))];
 
     if #C eq 0 then
         return [],true; // No nonzero relations
@@ -873,7 +873,7 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
 
     C:=Saturation(Matrix(C));
     if lll then
-        C:=LLL(C:Proof:=false); 
+        C:=LLL(C:Proof:=false);
     end if;
     assert Nrows(C) eq Ncols(B) - r;
 
@@ -900,7 +900,7 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
         // We achieve this by first looking modulo a suitable prime ideal.
 
         B:=Matrix([ [MonomialCoefficient(pol,m): m in monomials] : pol in psi]);
-        O_KG:=RingOfIntegers(M`KG);  
+        O_KG:=RingOfIntegers(M`KG);
         B:=ChangeRing(B,O_KG);
         p:=1;
         repeat
@@ -919,7 +919,7 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
             end if;
             if #b eq r then
                 break i;
-            end if; 
+            end if;
         end for;
         psi:=[psi[i]: i in I1];
     end if;
@@ -933,20 +933,20 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
             proved:=true;
         end if;
     end if;
-    
+
     return psi, proved;
 end intrinsic;
 
 intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0, prec_delta:=10) -> BoolElt, Rec
- {      
+ {
     Input:
             M:  a record of type ModularCurveRec (for example produced as output of CreateModularCurveRec) that
                 corresponds to a modular curve X_G with genus g at least 3.
-    
+
     Output: An updated record M.
             The first g elements of M`F0 will be a basis f_1,..,f_g of the K_G-subspace of M_(k,G) consisting
             of cusps forms.  These cusp forms define the canonical map
-                            X_G -> P^(g-1)_(K_G); 
+                            X_G -> P^(g-1)_(K_G);
             the image is a curve C which is defined by the equations in the sequence M`psi.  Moreover, M`psi
             consists of homomogeneous polynomials that generated the ideal of C.
 
@@ -971,7 +971,7 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
     Pol<[x]>:=PolynomialRing(K,g);
 
     // Compute modular forms of weight 2 if needed.
-    if not assigned M`k or M`k ne 2 or not assigned M`F then    
+    if not assigned M`k or M`k ne 2 or not assigned M`F then
         M:=FindModularForms(2,M : lll:=[lll[1],lll[2]]);
     end if;
     // Compute cusp forms
@@ -989,15 +989,15 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
         prec:=Minimum([ (M`sl2level div M`widths[i])*M`prec[i] : i in [1..M`vinf]]);
         prec:=Maximum(prec,prec0);
         repeat
-            F:=[M`F0[i]: i in [1..g]];        
-            d:=FindRelationsOverKG(M, F, 4 : dim_only:=true);         
+            F:=[M`F0[i]: i in [1..g]];
+            d:=FindRelationsOverKG(M, F, 4 : dim_only:=true);
             if d ne 1 then
                 // Increase precision if we found too many relations
                 prec:=prec+prec_delta;
                 M:=IncreaseModularFormPrecision(M,prec);
-            end if;   
-        until d eq 1;        
-        I4:=FindRelationsOverKG(M, F, 4 : lll:=lll[5]);  
+            end if;
+        until d eq 1;
+        I4:=FindRelationsOverKG(M, F, 4 : lll:=lll[5]);
         I4:=[Pol!p: p in I4];
         M`psi:=I4;
         return M;
@@ -1013,13 +1013,13 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
     prec:=Minimum([ (M`sl2level div M`widths[i])*M`prec[i] : i in [1..M`vinf]]);
     prec:=Maximum(prec,prec0);
     repeat
-        F:=[M`F0[i]: i in [1..g]];        
-        d:=FindRelationsOverKG(M, F,2 : dim_only:=true);         
+        F:=[M`F0[i]: i in [1..g]];
+        d:=FindRelationsOverKG(M, F,2 : dim_only:=true);
         if d ne d2 then
             // Increase precision if we found too many relations
             prec:=prec + prec_delta;
             M:=IncreaseModularFormPrecision(M,prec);
-        end if;   
+        end if;
     until d eq d2;
 
     // Actually compute relations this time
@@ -1049,7 +1049,7 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
     assert Dimension(W) eq ((g-3)*(g^2+6*g-10) div 6) - (g-3);
 
     // We now construct a complement Wc of W in V
-    Wc:=sub<V|[]>; 
+    Wc:=sub<V|[]>;
     for v in Basis(V) do
         Wc_:=Wc + sub<V|[v]>;
         if Dimension(Wc_) gt Dimension(Wc) and Dimension(Wc_ meet W) eq 0 then
@@ -1060,21 +1060,21 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
         end if;
     end for;
     pol:=[ &+[v[i]*mon[i] : i in [1..#mon]] : v in Basis(Wc)]; // basis of complement
-    
-    
+
+
     repeat
         F:=[M`F0[i]: i in [1..g]];
-        h:=[ [Evaluate(p,[f[i]: f in F]): i in [1..M`vinf]] :  p in pol ];        
+        h:=[ [Evaluate(p,[f[i]: f in F]): i in [1..M`vinf]] :  p in pol ];
         d:=FindRelationsOverKG(M,h,1 : dim_only:=true);
         if d ne g-3 then
             // Increase precision if we have not found enough cubic relations.
-            prec:=prec + prec_delta; 
+            prec:=prec + prec_delta;
             M:=IncreaseModularFormPrecision(M,prec);
         end if;
     until d eq g-3;
 
     // Actually compute relations this time
-    I3:=FindRelationsOverKG(M,h,1 : lll:=lll[5]);  
+    I3:=FindRelationsOverKG(M,h,1 : lll:=lll[5]);
     I3:=[ Pol!Evaluate(l,pol) : l in I3 ];
 
     M`psi:=I2 cat I3;
@@ -1082,30 +1082,30 @@ intrinsic FindCanonicalModel(M::Rec : lll:=[true,true,true,true,true], prec0:=0,
 end intrinsic;
 
 intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
-    {  
-        Input:       
-                M:      a record of type "ModularCurveRec" (for example produced as output of CreateModularCurveRec) that 
+    {
+        Input:
+                M:      a record of type "ModularCurveRec" (for example produced as output of CreateModularCurveRec) that
                         corresponds to a modular curve X_G.    Function assumes that G contains -I.
 
-        Output: 
+        Output:
                 An updated record M is returned with an explicit model computed.   The polynomials cutting out the model
                 can be found in M`psi.
 
                 Details:
                 The model is found by computing a K_G-subspace V of M_(k,G) given by extra vanishing conditions at the cusps.
-                The k is a positive even integer stored as M`k and the multiplicity at the cusps is given by M`mult (with the same 
+                The k is a positive even integer stored as M`k and the multiplicity at the cusps is given by M`mult (with the same
                 ordering of cusps as given by M).   A Q-basis of V is given by M`F0.
 
                 Let n be the dimension of V as a K_G-vector space; it agrees with #M`F0/M`KG_degree.  The first n terms
-                            f_1,..,f_n 
-                of M`F0 is a K_G-basis of V.   The set of polynomials M`psi generats the ideal of K_G[x_1,...,x_n] consisting of 
+                            f_1,..,f_n
+                of M`F0 is a K_G-basis of V.   The set of polynomials M`psi generats the ideal of K_G[x_1,...,x_n] consisting of
                 polynomials P for which P(f_1,...,f_n)=0.   The ideal cuts out the model in P^(n-1)_(K_G).
 
-                The set M`psi will always consist of homogeneous polynomials of degree 2 and 3.  
+                The set M`psi will always consist of homogeneous polynomials of degree 2 and 3.
                 We use the canonical model whenever possible.
 
-            
-        If desired, the parameter G0 can be set to be an open subgroup of GL(2,Zhat) for which G=M`G is a normal subgroup.  
+
+        If desired, the parameter G0 can be set to be an open subgroup of GL(2,Zhat) for which G=M`G is a normal subgroup.
         We then choose our model so that G0 acts on V.   This makes it easy later to compute the automorphisms of our curve coming from G0/G.
 
         The quantities "prec0" and "prec_delta" are technical parameters for the starting precision and increasing precision.
@@ -1124,13 +1124,13 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
         k:=k+2;
         degD:= (k*(2*M`genus-2)) div 2 + Floor(k/4)*M`v2 + Floor(k/3)*M`v3 + (k div 2)*#M`cusps;
     until degD ge 2*M`genus+1;
-    
+
     // Compute modular forms of weight k.
-    M:=FindModularForms(k,M);  
+    M:=FindModularForms(k,M);
     cusps:=M`cusps;
 
     N:=M`N;
-    GL2:=GL2Ambient(N); 
+    GL2:=GL2Ambient(N);
     SL2:=SL2Ambient(N);
     G:=M`G;
 
@@ -1139,7 +1139,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     if Type(G0) ne GrpMat then
         G0:=G;  // If not set by user ahead of time
     else
-        N0:=GL2Level(G0); 
+        N0:=GL2Level(G0);
         assert N mod N0 eq 0;
         G0:=GL2Lift(GL2Project(G0,N0),N);
         assert G subset G0;
@@ -1150,7 +1150,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     SL2:=SL2Ambient(m);
     GL2:=GL2Ambient(m);
 
-    // Computes the action of det(G0) on the cusps of X_G.  
+    // Computes the action of det(G0) on the cusps of X_G.
     // When det(G0)=det(G), this corresponds to the action of Gal(K_G(zeta_N)/K_G) on the cusps.
     if #M`cusps gt 1 then
         U:=GL2DeterminantImage(G0);
@@ -1162,10 +1162,10 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
             sigma:=[FindCuspData(M,SL2!((GL2!g)^(-1)*GL2!cusps[i]*b))[1]: i in [1..M`vinf]];
             s:=s join {sigma};
         end for;
-        
-        // Let H and H0 be the intersection of G and G0, respectively, with SL(2,Z/N).  
+
+        // Let H and H0 be the intersection of G and G0, respectively, with SL(2,Z/N).
         // We now computes the action of H0/H on the cusps of X_G.
-        H0:=SL2Intersection(G0); 
+        H0:=SL2Intersection(G0);
         Q,iotaQ:=quo<H0|SL2Lift(M`H,N)>;
         for g_ in Generators(Q) do
             g:= SL2!(g_ @@ iotaQ);
@@ -1180,7 +1180,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     end if;
 
 
-    /*  We now compute a sequence "mult" of nonnegative integers that give the vanishing conditions 
+    /*  We now compute a sequence "mult" of nonnegative integers that give the vanishing conditions
         we want to impose at the cusps.  It is chosen so the integers depend only on the Galois orbit of the cusps
         and so that the degree of the the corresponding sheaf is at least 2*genus+1.   We try to choose our
         integers so that the degree is minimal and so that we do not have to compute too many terms of the
@@ -1188,9 +1188,9 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     */
             function linear_integral_solutions(m,n)
                 /* Given a tuple m=(m_1,...m_n) of positive integer and a nonnegative integer n,
-                    this computes (by brute force) the set of solutions to 
+                    this computes (by brute force) the set of solutions to
                         m_1 x_1 + ... + m_n x_n
-                    in nonnegative integers. */                
+                    in nonnegative integers. */
                 if #m eq 1 then
                     if n mod m[1] eq 0 then
                         return [[n div m[1]]];
@@ -1203,7 +1203,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
                     S:=S cat [ [i] cat s : s in S0];
                 end for;
                 return S;
-            end function; 
+            end function;
 
     for n in Reverse([0..degD-(2*M`genus+1)]) do
         S:=linear_integral_solutions([#O: O in ind],n);
@@ -1223,10 +1223,10 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     M`mult:=mult;  // Our vanishing conditions
 
     // We now impose the vanishing conditions;  M`F0 will give the basis of modular forms that satisfy the conditions.
-    M:=FindModularFormsWithVanishingConditions(M,mult);  
+    M:=FindModularFormsWithVanishingConditions(M,mult);
 
     F:=[M`F0[i]:i in [1..#M`F0 div M`KG_degree]]; // basis over K_G
-    n:=#F;  
+    n:=#F;
 
     if M`KG_degree eq 1 then
         K:=Rationals();
@@ -1249,7 +1249,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
         M:=IncreaseModularFormPrecision(M,prec);
         F:=[M`F0[i]:i in [1..#M`F0 div M`KG_degree]];
 
-        prec1:=prec1+prec_delta; 
+        prec1:=prec1+prec_delta;
 
         I2,found:=FindRelationsOverKG(M,F,2: Proof:=true, k:=k);  // Proof set to true.
         I2:=[Pol!p: p in I2];
@@ -1260,7 +1260,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
         return M;
     end if;
     assert degD-&+mult eq 2*M`genus+1;
-    
+
     // Now look for cubic relations
     monomials_degree_3:=MonomialsOfWeightedDegree(Pol,3);
     V:=KSpace(K,#monomials_degree_3);
@@ -1289,8 +1289,8 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
         prec:=[(prec1-1) div ee[i]: i in [1..M`vinf]];
         M:=IncreaseModularFormPrecision(M,prec);
 
-        F:=[M`F0[i]:i in [1..#M`F0 div M`KG_degree]];        
-        prec1:=prec1+prec_delta; 
+        F:=[M`F0[i]:i in [1..#M`F0 div M`KG_degree]];
+        prec1:=prec1+prec_delta;
 
         FF:=[ [Evaluate(m,[f[i]: f in F]) : i in [1..M`vinf]] : m in beta ];
         I3,found:=FindRelationsOverKG(M,FF,1: Proof:=true, k:=3*k);
@@ -1299,28 +1299,28 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     I3:=[Pol!Evaluate(p,beta): p in I3]; // cubic relations
 
     M`psi:=I2 cat I3;
-    return M;   
+    return M;
 end intrinsic;
 
 intrinsic ConvertModularFormExpansions(M1, M2, F, g : wt:=0) -> SeqEnum
     {
         Input:
-            M1, M2  : modular curves corresponding to X_G1 and X_G2, respectively, where Gi is an open subgroup of GL(2,Zhat).                  
+            M1, M2  : modular curves corresponding to X_G1 and X_G2, respectively, where Gi is an open subgroup of GL(2,Zhat).
             g       : a matrix in GL(2,Zhat)  (given as a matrix in GL(2,Z/N) where N is divisible by the level of G1)
-            F       : a sequence of (weakly) modular form on M1=X_G1; each modular forms is given as a sequence consisting of 
-                        its q-expansion at the cusps of M1 (using M1`cusps).                     
+            F       : a sequence of (weakly) modular form on M1=X_G1; each modular forms is given as a sequence consisting of
+                        its q-expansion at the cusps of M1 (using M1`cusps).
             wt      : the weight of each modular form in F; though we only use the value of wt modulo 2.
 
-        We assume that for each modular form f in F, f*g is a modular form on M2=X_G2.   
+        We assume that for each modular form f in F, f*g is a modular form on M2=X_G2.
 
         Output: the sequence of modular forms f*g of M2=X_G2 with f in F.
-        
+
         Note:   If the wrong weight "wt" is given, the resulting output might be off by a sign.
     }
 
     N1:=M1`N;
-    N2:=M2`N;   
-     
+    N2:=M2`N;
+
     KN1<zeta_N1>:=CyclotomicField(N1);
     R1<qw>:=PowerSeriesRing(KN1);
 
@@ -1331,10 +1331,10 @@ intrinsic ConvertModularFormExpansions(M1, M2, F, g : wt:=0) -> SeqEnum
         assert M1`vinf eq 1;
         return [ [ Evaluate(R2!f[1],qw^(M2`widths[i])) : i in [1..M2`vinf]] : f in F];
     end if;
-    assert N1 ne 1; 
+    assert N1 ne 1;
 
     GL2:=GL2Ambient(N1);
-    g:=GL2!g; 
+    g:=GL2!g;
     d:=Integers()!Determinant(g);
     data:=[ FindCuspData(M1, g*GL2!M2`cusps[i]*(GL2![1,0,0,d])^(-1) ) : i in [1..M2`vinf] ];
 
@@ -1360,8 +1360,8 @@ intrinsic ConvertModularFormExpansions(M1, M2, F, g : wt:=0) -> SeqEnum
             h:= ChangePrecision(sgn^wt * R1![ power_of_zetaN1(e1*j*i) * Coefficient(h,i) : i in [0..AbsolutePrecision(h)-1]],AbsolutePrecision(h));
 
             //zeta_w1:=zeta_N1^(N1 div w1);
-            //h:=sgn^wt * Evaluate(h,zeta_w1^j*qw);   
-            //assert IsWeaklyEqual(h,h_new); 
+            //h:=sgn^wt * Evaluate(h,zeta_w1^j*qw);
+            //assert IsWeaklyEqual(h,h_new);
 
             h_new:=&+[ power_of_zetaN1((k-1)*d) * R1![Coefficient(h,i)[k]: i in [0..AbsolutePrecision(h)-1]] : k in [1..EulerPhi(N1)]];
             h:=ChangePrecision(h_new,AbsolutePrecision(h));
@@ -1381,24 +1381,24 @@ end intrinsic;
 
 intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:=[true,true], prime_tolerance:=5) -> Rec
     {
-    Input   
+    Input:
             k:  an integer > 1,
-            M:  a modular curve given by a record of type "ModularCurveRec" (for example produced as output of 
+            M:  a modular curve given by a record of type "ModularCurveRec" (for example produced as output of
                 CreateModularCurveRec)  associated to an open subgroup G of GL(2,Zhat).  Let N be the level of G.
 
     Output:
-            The record M with M`F updated to consist of a basis of the space of modular forms 
-                        M_(k,G) := M_k(Gamma(N),Q(zeta_N))^G 
-            as a vector space over Q.   
+            The record M with M`F updated to consist of a basis of the space of modular forms
+                        M_(k,G) := M_k(Gamma(N),Q(zeta_N))^G
+            as a vector space over Q.
 
             Let d be the dimension of M_(k,G) over K_G (note: d=#M`F div M`KG_degree).
-            The first d modular forms in the sequence M`F will be a basis of M_(k,G) over K_G (moreover, they are 
+            The first d modular forms in the sequence M`F will be a basis of M_(k,G) over K_G (moreover, they are
             linearly independent over C).
-            
+
             A modular form is given as a sequence consisting of its q-expansion at each cusp (with the ordering of cusps
-            coming from M`cusps).  Enough terms of the q-expansions of each modular form is computed so that it is 
+            coming from M`cusps).  Enough terms of the q-expansions of each modular form is computed so that it is
             uniquely determined in M_(k,G).
-            
+
             [M is returned with the following entries computed/updated:  k, dimMk, dimSk, prec_sturm, prec, F]
 
             The technical parameters "lll" and "saturation" can adjust when the function takes saturations and applies LLL to matrices.
@@ -1412,11 +1412,11 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
 
     require k gt 1 : "Need weight at least 2.";
     delete M`F; //Remove any modular form data previously computed
-    delete M`F0; 
+    delete M`F0;
     delete M`prec;
     delete M`modular_form_data;
 
-    M`k:=k; 
+    M`k:=k;
     cusps:=M`cusps;
     widths:=M`widths;
     vinf:=M`vinf;
@@ -1435,14 +1435,14 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         d:=(k-1)*(M`genus-1)+(k/2)*u +(k-1)/2*u_ + M`v2*Floor(k/4) + M`v3*Floor(k/3);
         d0:=(k-1)*(M`genus-1)+((k-2)/2)*u +(k-1)/2*u_ + M`v2*Floor(k/4) + M`v3*Floor(k/3);
     end if;
-    M`dimMk:=Integers()!d; 
+    M`dimMk:=Integers()!d;
     M`dimSk:=Integers()!d0;
 
     // When M_{k,G} = 0, the basis is empty and we are done!
-    if M`dimMk eq 0 then      
-        M`F:=[]; 
+    if M`dimMk eq 0 then
+        M`F:=[];
         M`prec_sturm:=1;
-        M`prec:=[1: i in [1..M`vinf]]; 
+        M`prec:=[1: i in [1..M`vinf]];
         return M;
     end if;
 
@@ -1459,13 +1459,13 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     G`Order:=GL2Order(G);
     /*  At first the q-expansions at each cusp will be given as a power series in q^(1/m).
 
-        We need m at least 3 so that our construction of modular forms in terms of 
+        We need m at least 3 so that our construction of modular forms in terms of
         Eisenstein series will always work.
     */
 
-    SL2:=SL2Ambient(m); 
+    SL2:=SL2Ambient(m);
     cusps:=[SL2!A: A in cusps];
-        
+
     Km<zetam>:=CyclotomicField(m);  // This is also the field K_H
     Om:=RingOfIntegers(Km);
 
@@ -1476,36 +1476,36 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     end function;
 
     /*
-        We will compute q-expansions at the cusps up to O(qm^(Prec)) with Prec chosen large enough 
+        We will compute q-expansions at the cusps up to O(qm^(Prec)) with Prec chosen large enough
         to distinguish elements of M_{k,H}, where qm=q^(1/m).
 
         We use a Sturm bound which bounds the order of vanishing at the cusps by Riemann-Roch.
     */
     sturm:=SturmPrecision(k,M);
-    b0:=m*sturm/M`degree;     
-    Prec :=Ceiling(b0);  
-    if Prec eq b0 then 
-        Prec:=Prec+1; 
+    b0:=m*sturm/M`degree;
+    Prec :=Ceiling(b0);
+    if Prec eq b0 then
+        Prec:=Prec+1;
     end if;
-    M`prec_sturm:=[Ceiling(w*Prec/m) : w in M`widths]; 
+    M`prec_sturm:=[Ceiling(w*Prec/m) : w in M`widths];
 
     /*  We start constructing modular forms!
 
         Consider an element a=(a_1,...,a_k) in (Z/NZ)^(2k) = ((Z/NZ)^2)^k.
- 
-        To a, we construct the modular form f_a in M_{k,H} that is the sum of the functions  
-                        E[a_1*h]*...*E[a_k*h, 
-        over all h in H.   Note: f_a need not lie in M_{k,G}.  
 
-        Using the action of G on M_{k,H}, as a vector space over K_G, we obtain from f_a many elements of M_{k,H}.  Galois descent 
+        To a, we construct the modular form f_a in M_{k,H} that is the sum of the functions
+                        E[a_1*h]*...*E[a_k*h,
+        over all h in H.   Note: f_a need not lie in M_{k,G}.
+
+        Using the action of G on M_{k,H}, as a vector space over K_G, we obtain from f_a many elements of M_{k,H}.  Galois descent
         can be used to ensure the existence of a basis of M_{k,G} over K_G once we have enough modular forms.
-                     
+
         We will compute modular forms until we find a basis for M_{k,H} over K_G; they will also be linearly independent over Km.
 
-        We check that modular forms are linearly independent by checking independence modulo a large enough prime ideal of the ring 
+        We check that modular forms are linearly independent by checking independence modulo a large enough prime ideal of the ring
         of integers of Km.   This is a little messy and we will consider more prime as we proceed searching for modular forms.
-    */    
-    
+    */
+
     // Reduction of G modulo m and a minimal sequence of generators; these are needed for the action of G on modular forms we find
     Gm:=GL2Project(G,m);
         Q,iQ:=quo<Gm|H>;
@@ -1516,10 +1516,10 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     // Data that we compute once and will reuse.
     GL2:=GL2Ambient(m);
     bb:=[ [ g*cusps[e]*GL2![1,0,0,1/Determinant(g)] : g in gens_Gm_mod_H] : e in [1..M`vinf] ];
-    gens_Gm_mod_H_pairs:=[ [FindCuspData(M,bb[e][i]) : e in [1..M`vinf]] :  i in [1..#gens_Gm_mod_H]];   
+    gens_Gm_mod_H_pairs:=[ [FindCuspData(M,bb[e][i]) : e in [1..M`vinf]] :  i in [1..#gens_Gm_mod_H]];
 
-    ee:=[m div w: w in M`widths];    
-    R_Om<qw>:=PowerSeriesRing(Om);  
+    ee:=[m div w: w in M`widths];
+    R_Om<qw>:=PowerSeriesRing(Om);
 
     function RightActionOnModularForm(f,triples,d)
         /* We have a modular form f with q-expansions given at the cusps;
@@ -1533,7 +1533,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
                 a1:=triples[e][1];
                 a2:=triples[e][2];
                 sgn:=triples[e][3];
-                assert widths[e] eq widths[a1];                 
+                assert widths[e] eq widths[a1];
                 f1:=sgn^M`k *  R_Om![power_of_zetam(ee[a1]*a2*i) * Coefficient(f[a1],i) : i in [0..(Prec-1) div ee[a1]]];
                 f1:= &+[ power_of_zetam(m1*d) * R_Om![Coefficient(f1,i)[m1+1] : i in [0..(Prec-1) div ee[a1]]] : m1 in [0..EulerPhi(m)-1] ];
                 ff cat:= [f1];
@@ -1541,19 +1541,19 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             return ff;
     end function;
 
-    E:=EisensteinFormsWeight1(m, Prec);  // Compute Eisenstein series of weight 1 and level m. 
- 
+    E:=EisensteinFormsWeight1(m, Prec);  // Compute Eisenstein series of weight 1 and level m.
+
     ConjH:=[Conjugate(H, A) :  A in cusps];     // Groups A^(-1)*H*A with A running over matrices in cusps.
-    if SL2ContainsNegativeOne(H) then 
-        e:=-1; 
-    else 
-        e:=1; 
+    if SL2ContainsNegativeOne(H) then
+        e:=-1;
+    else
+        e:=1;
     end if;
-    U:=[sub<SL2| [[e,0,0,e], [1,M`widths[i],0,1]]> : i in [1..M`vinf]];  
+    U:=[sub<SL2| [[e,0,0,e], [1,M`widths[i],0,1]]> : i in [1..M`vinf]];
     // The group U[i] will fix the q-expansion at the i-th cusp.
 
 
-    RR:=[ [a^(-1): a in Transversal(ConjH[i],U[i])] : i in [1..M`vinf] ];      
+    RR:=[ [a^(-1): a in Transversal(ConjH[i],U[i])] : i in [1..M`vinf] ];
     // RR[i] is a set of representatives of the cosets ConjH[i]/U[i].
 
     F1:=[]; //sequence of modular forms so far in M_{k,H}
@@ -1561,7 +1561,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     B:=[];  // info of F1 in terms of vectors
     S:={};  // The set of a's we have already tried
 
-    /*  
+    /*
         We will need to compute the rank of matrices with coefficients in Om.
         Our approach is to compute the rank of its reduction at several small primes;
         the following keeps track of this info.
@@ -1585,20 +1585,20 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
 
     done:=false;
     count:=0;
-    while not done do   
-        if count mod prime_tolerance eq 0 then  
+    while not done do
+        if count mod prime_tolerance eq 0 then
             //TODO:  choose p so that residue field is smaller?
 
-            // We compute the rank of matrices modulo more primes as we proceed without success.  
+            // We compute the rank of matrices modulo more primes as we proceed without success.
             // We consider prime ideals P of Om=Z[zeta_m].  We take it relative to m
-            // and the cardinality of H.  
+            // and the cardinality of H.
             repeat
                 p:=NextPrime(p);
             until m mod p ne 0 and GL2Order(H) mod p ne 0;
             P:=Factorization(ideal<Om|[p]>)[1][1];
             FF_P,iota:=ResidueClassField(P);
             Iota cat:= [iota];
-            
+
             V:=V cat [KSpace(FF_P,&+[a+1: a in mult])];
             W_tot:= W_tot cat [* sub<V[#V]|[]> *];
             WW:=WW cat [* [**] *];
@@ -1606,20 +1606,20 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         end if;
         count:=count+1;
 
-        a:=random{a: a in RSpace(Integers(m),2*k) | a notin S and &and[ a[2*i-1] ne 0 or a[2*i] ne 0 : i in [1..k] ] };  
+        a:=random{a: a in RSpace(Integers(m),2*k) | a notin S and &and[ a[2*i-1] ne 0 or a[2*i] ne 0 : i in [1..k] ] };
         //TODO: FIX: pretty quick but will freeze if set becomes empty (incredible unlikely!)
 
         S:=S join {a};
         a:=[ RSpace(Integers(m),2)![a[2*i-1],a[2*i]] : i in [1..k] ];
 
-        // We construct the modular form arising from a.                 
+        // We construct the modular form arising from a.
         ff:=[];
-        for i in [1..M`vinf] do             
-            f:=&+[ &*[E[a[e]*tmp2]:e in [1..k]] where tmp2:=cusps[i]*h : h in RR[i]  ];                  
-            e:=m div M`widths[i]; 
-            m1:=(Prec-1) div e;  
+        for i in [1..M`vinf] do
+            f:=&+[ &*[E[a[e]*tmp2]:e in [1..k]] where tmp2:=cusps[i]*h : h in RR[i]  ];
+            e:=m div M`widths[i];
+            m1:=(Prec-1) div e;
             f:=#U[i] * &+[Coefficient(f,e*j)*qw^j : j in [0..m1]] + O(qw^(m1+1));
-            ff:= ff cat [f];           
+            ff:= ff cat [f];
         end for;
 
         // We record the constructed modular form ff of M_{k,H}
@@ -1629,7 +1629,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         v:=Vector([Om!a: a in v]);
         vector_of_constructed_modular_forms cat:= [v];
 
-        /*  There is a right action of Gm on M_{k,H} which we apply to ff to hopefully get many elements 
+        /*  There is a right action of Gm on M_{k,H} which we apply to ff to hopefully get many elements
             of M_{k,H}.
 
             We keep track of the ongoing modular forms constructed until we have enough to span M_{k,H}.
@@ -1651,16 +1651,16 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
                 for i in [1..#gens_Gm_mod_H] do
                     for b_ in T do
                         b0:=b_;
-                        b:=b_ cat [1];                    
+                        b:=b_ cat [1];
                         done_action:=false;
                         repeat
                             T:=T cat [b];
-                            if b notin Keys(conjugates[l]) then                        
+                            if b notin Keys(conjugates[l]) then
                                 conjugates[l][b]:=RightActionOnModularForm( conjugates[l][b0], gens_Gm_mod_H_pairs[i], gens_Gm_mod_H_det[i]);
-                            end if;                            
+                            end if;
                             v:=Vector([Om!a: a in ModularFormToSequence(M,conjugates[l][b], mult,m)]);
                             v:=ChangeRing(v,Iota[j]);
-                            if v notin W then 
+                            if v notin W then
                                 W:=W + sub<V[j]|[v]>;
                             else
                                 done_action:=true;
@@ -1668,7 +1668,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
                             b0:=b;
                             b[#b]+:=1;
                         until done_action;
-                    end for;            
+                    end for;
                 end for;
                 handled[j]:=handled[j] cat [l];
                 WW[j]:=WW[j] cat [* W *];
@@ -1676,7 +1676,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             end for;
         end for;
 
-        dim_seq:=[Dimension(W_tot[j]): j in [1..#Iota]];        
+        dim_seq:=[Dimension(W_tot[j]): j in [1..#Iota]];
         done:=M`dimMk in dim_seq;
         // We are done when we have found a basis of M_{k,H} over Km (by reducing modulo a prime).
     end while;
@@ -1708,7 +1708,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         return powers_of_z_list[(i mod N)+1];
     end function;
 
-    R_ON<qw>:=PowerSeriesRing(ON); 
+    R_ON<qw>:=PowerSeriesRing(ON);
 
     constructed_modular_forms:=AssociativeArray();
     constructed_vectors:=AssociativeArray();
@@ -1724,24 +1724,24 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
 
     repeat
         for j in [0..EulerPhi(N) div M`KG_degree -1] do
-        
-            for i in [1..#F1] do            
+
+            for i in [1..#F1] do
                 if [i,j] in basis_indices then continue i; end if;  //this case already being used
-        
+
                 if [i,j] notin Keys(constructed_vectors) then
                     scalars:=[ &+[ power_of_z(d*j): d in M`cosets_det[l]] : l in [1..#M`Gm_mod_H] ];
                     fj:=[ &+[ scalars[l] * R_ON!orbits[i][l][e] : l in [1..#M`Gm_mod_H]]  :  e in [1..M`vinf] ];
-                    constructed_modular_forms[[i,j]]:=fj;                
+                    constructed_modular_forms[[i,j]]:=fj;
                     constructed_vectors[[i,j]]:=[ON!a: a in ModularFormToSequence(M,fj,mult,N)];
                 end if;
 
                 v:=constructed_vectors[[i,j]];
-                B_:=ChangeRing(Matrix(B cat [v]),iota); 
+                B_:=ChangeRing(Matrix(B cat [v]),iota);
 
                 if Rank(B_) gt #B then
                     basis_indices:=basis_indices cat [[i,j]];
                     B:=B cat [v];
-                    if #basis_indices eq M`dimMk then   
+                    if #basis_indices eq M`dimMk then
                         done:=true;
                         break j;
                     end if;
@@ -1764,15 +1764,15 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
     assert #basis_indices eq M`dimMk;
     // We now have constructed a basis of M_{k,G} over K_G.
     F:=[constructed_modular_forms[a] : a in basis_indices];
-   
+
     // Recorded the data of the modular forms constructed (can be used to increase precision of q-expansions)
     M`modular_form_data:=[ &cat[Eltseq(ChangeRing(a,Integers())): a in found_modular_forms[b[1]]] cat [b[2]] : b in basis_indices];
 
 
-    mult:=[(Prec-1) div ee[i] : i in [1..M`vinf]]; 
+    mult:=[(Prec-1) div ee[i] : i in [1..M`vinf]];
     B0:=Matrix([ModularFormToSequence(M,f,mult,N : OverQ:=true) : f in F]);
     B1:=LCM([Denominator(B0[i,j]): i in [1..Nrows(B0)], j in [1..Ncols(B0)]])*B0;
-    B1:=ChangeRing(B1,Integers());    
+    B1:=ChangeRing(B1,Integers());
     if saturation[1] then
         B1:=Saturation(B1);
     end if;
@@ -1794,7 +1794,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         FF:=F;
     else
         // We want a basis of modular forms over Q.  This takes more work when KG is not Q.
-        
+
         FF:=&cat[[[M`KG_integral_basis_cyclotomic[l]*f[i]: i in [1..M`vinf]]: l in [1..M`KG_degree]] : f in F];
         B0:=Matrix([ModularFormToSequence(M,f,mult,N : OverQ:=true) : f in FF]);
 
@@ -1803,14 +1803,14 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
         if saturation[2] then
             B1:=Saturation(B1);
         end if;
-        if lll[2] then 
-            B1:=LLL(B1 :Proof:=false);  
+        if lll[2] then
+            B1:=LLL(B1 :Proof:=false);
         end if;
 
         // We want the first M`dimMk modular forms to be a basis over K_G.
         FF_:=[SequenceToModularForm(M,v,mult,N: OverQ:=true) : v in Rows(B1)];
         Q:=Matrix([ModularFormToSequence(M,f,mult,N) : f in FF_]);   //Matrix over KN
-        Q_red:=ChangeRing(ChangeRing(Q,ON),iota); 
+        Q_red:=ChangeRing(ChangeRing(Q,ON),iota);
         assert Rank(Q_red) eq M`dimMk;
         I:=[];
         b:=[];
@@ -1822,7 +1822,7 @@ intrinsic FindModularForms(k::RngIntElt, M::Rec : lll:=[true,false], saturation:
             end if;
             if #b eq M`dimMk then
                 break i;
-            end if; 
+            end if;
         end for;
         assert Rank(Matrix([Q_red[i]: i in I])) eq M`dimMk;
         B1:=Matrix([B1[i]: i in I] cat [B1[i]: i in [1..Nrows(B1)] | i notin I]);
@@ -1846,27 +1846,27 @@ end intrinsic;
 
 intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
     {
-    Input   M:      a modular curve given as a record of type "ModularCurveRec" for which 
+    Input   M:      a modular curve given as a record of type "ModularCurveRec" for which
                     M`F is defined and consist of modular forms (as outputted by "FindModularForms").
             prec:   a sequence of positive integers; one integer for each cusp.
 
     Output:
-            Returns M with the q-expansions of the modular forms in M`F extended so that they are computed 
-            at least up to O(q^(prec[i]/w_i) at the i-th cusp of M, where w_i is the width of the i-th cusp.  
+            Returns M with the q-expansions of the modular forms in M`F extended so that they are computed
+            at least up to O(q^(prec[i]/w_i) at the i-th cusp of M, where w_i is the width of the i-th cusp.
 
             This also extends the modular forms in M`F0 if present.
     }
 
     if not assigned M`k or not assigned M`F then
         // nothing to do
-        return M; 
+        return M;
     end if;
     assert assigned M`prec;
 
     // For our approach, we want to increase the precision so that it agrees at all cusps in the same Gal_(K_G)-orbit.
     for O in M`cusp_orbits do
         max:=Maximum([prec[i]: i in O]);
-        for i in O do  
+        for i in O do
             prec[i]:=max;
         end for;
     end for;
@@ -1879,11 +1879,11 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
 
     // We keep track of the cusps for which we need to improve the q-expansions
     I:=[i: i in [1..M`vinf] | prec[i] gt M`prec[i]];
-    if #I eq 0 then 
+    if #I eq 0 then
         return M; // q-expansions already have enough terms!
     end if;
-    
-    prec1:=[ i in I select Maximum(prec[i],1) else 1 : i in [1..M`vinf]];   
+
+    prec1:=[ i in I select Maximum(prec[i],1) else 1 : i in [1..M`vinf]];
 
     if M`sl2level gt 2 then
         m:=M`sl2level;
@@ -1904,9 +1904,9 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
     widths:=M`widths;
 
     GL2:=GL2Ambient(m);
-    SL2:=SL2Ambient(m);     
-    ee:=[m div w: w in M`widths]; 
-        
+    SL2:=SL2Ambient(m);
+    ee:=[m div w: w in M`widths];
+
     Km<zetam>:=CyclotomicField(m);  // This is also the field K_H
     Om:=RingOfIntegers(Km);
     powers_of_zetam_list:=[(Om!zetam)^i: i in [0..m-1]];
@@ -1921,17 +1921,17 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
     function power_of_z(i)
         return powers_of_z_list[(i mod N)+1];
     end function;
-    R_ON<qw>:=PowerSeriesRing(ON); 
-    R_Om<qw>:=PowerSeriesRing(Om); 
+    R_ON<qw>:=PowerSeriesRing(ON);
+    R_Om<qw>:=PowerSeriesRing(Om);
     R_KN<qw>:=PowerSeriesRing(KN);
-    
+
     function RightActionOnModularForm(f,pairs,d)
             R:=Parent(f[1]);
             ff:=[];
             for e in [1..M`vinf] do
                 a1:=pairs[e][1];
                 a2:=pairs[e][2];
-                assert widths[e] eq widths[a1]; 
+                assert widths[e] eq widths[a1];
                 sgn:=pairs[e][3];
                 f1:=ChangePrecision(sgn^M`k *  R_Om![power_of_zetam(ee[a1]*a2*i) * Coefficient(f[a1],i) : i in [0..AbsolutePrecision(f[a1])-1]], AbsolutePrecision(f[a1]));
                 f1:= ChangePrecision(&+[ power_of_zetam(m1*d) * R_Om![Coefficient(f1,i)[m1+1] : i in [0..AbsolutePrecision(f1)-1]] : m1 in [0..EulerPhi(m)-1] ],AbsolutePrecision(f1));
@@ -1939,10 +1939,10 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
             end for;
             return ff;
     end function;
-    
 
-    // Compute Eisenstein series of weight 1 and level m to required increased precision     
-    E:=EisensteinFormsWeight1(m, Maximum([prec1[i]*(m div M`widths[i]) : i in [1..M`vinf]]));  
+
+    // Compute Eisenstein series of weight 1 and level m to required increased precision
+    E:=EisensteinFormsWeight1(m, Maximum([prec1[i]*(m div M`widths[i]) : i in [1..M`vinf]]));
 
     cusps1:=[SL2Ambient(m)!a: a in cusps];
     ConjH:=[Conjugate(H, A) :  A in cusps1];     // Groups A^(-1)*H*A with A running over matrices in cusps.
@@ -1953,28 +1953,28 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
     end if;
     RR:=[ [a^(-1): a in Transversal(ConjH[i],U[i])] : i in [1..#cusps] ];  // RR[i] is a set of representatives of the cosets ConjH[i]/U[i].
 
-    R_Km<qw>:=PowerSeriesRing(Km);  
+    R_Km<qw>:=PowerSeriesRing(Km);
     F:=[];
     orbits:=AssociativeArray();
 
-    /* 
-        We now compute a basis of M_{k,H} over K_m with increased precision.  We use a basis has already 
-        been constructed and is given by "M`modular_form_data".   
+    /*
+        We now compute a basis of M_{k,H} over K_m with increased precision.  We use a basis has already
+        been constructed and is given by "M`modular_form_data".
     */
     for data in M`modular_form_data do
         a:=[ ChangeRing(Vector([data[2*i-1],data[2*i]]),Integers(m)) : i in [1..k] ];
         j:=data[2*k+1];
-    
+
         if a notin Keys(orbits) then
-            // We construct the modular form arising from a.                 
+            // We construct the modular form arising from a.
             ff:=[];
-            for i in [1..#cusps] do  
-                e:=m div M`widths[i];                 
-                
-                f:=&+[ &*[ ChangePrecision( E[a[e]*tmp2], prec1[i]*m div M`widths[i]):e in [1..k]] where tmp2:=cusps1[i]*h : h in RR[i]  ]; 
+            for i in [1..#cusps] do
+                e:=m div M`widths[i];
+
+                f:=&+[ &*[ ChangePrecision( E[a[e]*tmp2], prec1[i]*m div M`widths[i]):e in [1..k]] where tmp2:=cusps1[i]*h : h in RR[i]  ];
                 f:=ChangePrecision(#U[i] * &+[Coefficient(f,e*j)*qw^j : j in [0..prec1[i]-1]], prec1[i]);
 
-                ff:= ff cat [f];            
+                ff:= ff cat [f];
             end for;
             orbits[a]:=[RightActionOnModularForm(ff, M`Gm_mod_H_pairs[i], M`Gm_mod_H_det[i]): i in [1..#M`Gm_mod_H]];
         end if;
@@ -1999,7 +1999,7 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
 
     // Update using the highest precision estimate available at each cusp.
     M`F:=[  [ AbsolutePrecision(F[j][e]) ge AbsolutePrecision(M`F[j][e]) select F[j][e] else M`F[j][e] : e in [1..M`vinf] ]  : j in [1..#M`F] ];
-    
+
     // Update the improved precisions
     M`prec:=[Minimum([AbsolutePrecision(f[i]): f in M`F]) : i in [1..M`vinf]];
 
@@ -2007,8 +2007,8 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
 
     // Update the precision of modular forms with vanishing conditions (if they exist)
     if assigned M`F0 and #M`F0 ne 0 then
-        if #M`F0 eq #M`F and #M`conversion_matrices eq 2 then 
-            M`F0:=M`F; 
+        if #M`F0 eq #M`F and #M`conversion_matrices eq 2 then
+            M`F0:=M`F;
         else
             assert #M`conversion_matrices eq 4;
             C1:=ChangeRing(M`conversion_matrices[3],Rationals());
@@ -2022,10 +2022,10 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::SeqEnum) -> Rec
         end if;
     end if;
 
-    return M;   
+    return M;
 end intrinsic;
 
-intrinsic IncreaseModularFormPrecision(M::Rec, prec::RngIntElt) -> Rec  
+intrinsic IncreaseModularFormPrecision(M::Rec, prec::RngIntElt) -> Rec
     {
         Same as other version but q-expansions at all cusps are computed up to O(q^(prec/m)), where
         m=M`sl2level and prec is a nonnegative integer.
@@ -2033,10 +2033,10 @@ intrinsic IncreaseModularFormPrecision(M::Rec, prec::RngIntElt) -> Rec
     return IncreaseModularFormPrecision(M,[Ceiling(M`widths[i]*prec/M`sl2level): i in [1..M`vinf]]);
 end intrinsic;
 
-intrinsic AutomorphismOfModularForms(M::Rec,F::SeqEnum,g::GrpMatElt : OverQ:=false, k:=0)-> SeqEnum 
+intrinsic AutomorphismOfModularForms(M::Rec,F::SeqEnum,g::GrpMatElt : OverQ:=false, k:=0)-> SeqEnum
     {
-        Input:  a modular curve M=X_G, a sequence F of modular forms in M_(k,G) for some k>1 that are linearly 
-                independent over K_G, and a matrix g in GL(2,Zhat) that lies in the normalizer of G and acts on the K_G-vector 
+        Input:  a modular curve M=X_G, a sequence F of modular forms in M_(k,G) for some k>1 that are linearly
+                independent over K_G, and a matrix g in GL(2,Zhat) that lies in the normalizer of G and acts on the K_G-vector
                 V space spanned by F.
                 (The parameter "k" is an integer congruent to k modulo 2.)
 
@@ -2046,12 +2046,12 @@ intrinsic AutomorphismOfModularForms(M::Rec,F::SeqEnum,g::GrpMatElt : OverQ:=fal
         When "OverQ" is set to true, then it performs as described above except with K_G replaced by Q.
     }
     Fnew:=ConvertModularFormExpansions(M,M,F,g : wt:=k);
-   
+
     mult:=[(M`prec_sturm[i]-1) * (M`sl2level div M`widths[i]) : i in [1..M`vinf]];    // improve mult?
     A:=Matrix([ModularFormToSequence(M,f, mult,M`N : OverQ:=OverQ) : f in F]);
-    B:=Matrix([ModularFormToSequence(M,f, mult,M`N : OverQ:=OverQ) : f in Fnew]);   
-    
-    C:=Solution(A,B); 
+    B:=Matrix([ModularFormToSequence(M,f, mult,M`N : OverQ:=OverQ) : f in Fnew]);
+
+    C:=Solution(A,B);
     // Is this fast enough? Can compute in a different way if needed.
 
     if OverQ then
@@ -2062,4 +2062,3 @@ intrinsic AutomorphismOfModularForms(M::Rec,F::SeqEnum,g::GrpMatElt : OverQ:=fal
 
     return C;
 end intrinsic;
-
