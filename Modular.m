@@ -145,7 +145,8 @@ ModularCurveRec := recformat<
 */
 
 
-function LiftMatrix(A,n)
+intrinsic LiftMatrix(A::GrpMatElt[RngIntRes],n::RngIntElt) -> GrpMatElt[RngInt]
+{ A matrix B in M(2,Z) with det(B)=n whose reduction modulo N is A. }
  /*
     Input:
         A: matrix in GL(2,Z/NZ) with N>1,
@@ -174,13 +175,13 @@ function LiftMatrix(A,n)
     B:=Matrix([[a,b-N*y],[c,d+N*x]]);
     assert GL(2,Integers(N))!B eq A and Determinant(B) eq n;  // check!
     return B;
-end function;
+end intrinsic;
 
 intrinsic CreateModularCurveRec(G::GrpMat, H::GrpMat) -> Rec
     {
     Input:
         G   : an open subgroup of GL(2,Zhat)
-	    H   : the open subgroup of SL(2,Zhat) that is the intersection of G with SL(2,Zhat)
+        H   : the open subgroup of SL(2,Zhat) that is the intersection of G with SL(2,Zhat)
 
     Output:
         A record of type "ModularCurveRec" that encodes the modular curve X_G with some
@@ -762,7 +763,7 @@ intrinsic EvaluateAtMonomialsOfDegree(F,d) -> Assoc
     return A;
 end intrinsic;
 
-intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, lll:=true, dim_only:=false, Proof:=false, k:=-1) -> SeqEnum
+intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, lll:=true, dim_only:=false, Proof:=false, k:=-1) -> SeqEnum, BoolElt
  { Input:
         M:  a record describing the modular curve X_G
         F:  a finite sequence of modular forms in some M_(k,G)
@@ -848,9 +849,9 @@ intrinsic FindRelationsOverKG(M::Rec, F::SeqEnum,d::RngIntElt : OverQ:=false, ll
         dim:=Ncols(B) - r;  //dim over Q
         assert dim mod M`KG_degree eq 0;
         if OverQ then
-            return dim;
+            return dim, _;
         end if;
-        return dim div M`KG_degree;
+        return dim div M`KG_degree, _;
     end if;
 
     // Find a prime so that B mod p has the same rank as B
@@ -1186,24 +1187,24 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
         integers so that the degree is minimal and so that we do not have to compute too many terms of the
         q-expansions.
     */
-            function linear_integral_solutions(m,n)
-                /* Given a tuple m=(m_1,...m_n) of positive integer and a nonnegative integer n,
-                    this computes (by brute force) the set of solutions to
-                        m_1 x_1 + ... + m_n x_n
-                    in nonnegative integers. */
-                if #m eq 1 then
-                    if n mod m[1] eq 0 then
-                        return [[n div m[1]]];
-                    end if;
-                    return [];
-                end if;
-                S:=[];
-                for i in [0..n div m[1]] do
-                    S0:=linear_integral_solutions([m[j]: j in [2..#m]],n-m[1]*i);
-                    S:=S cat [ [i] cat s : s in S0];
-                end for;
-                return S;
-            end function;
+    function linear_integral_solutions(m,n)
+        /* Given a tuple m=(m_1,...m_n) of positive integer and a nonnegative integer n,
+           this computes (by brute force) the set of solutions to
+               m_1 x_1 + ... + m_n x_n
+           in nonnegative integers. */
+        if #m eq 1 then
+            if n mod m[1] eq 0 then
+                return [[n div m[1]]];
+            end if;
+            return [];
+        end if;
+        S:=[];
+        for i in [0..n div m[1]] do
+            S0:=linear_integral_solutions([m[j]: j in [2..#m]],n-m[1]*i);
+            S:=S cat [ [i] cat s : s in S0];
+        end for;
+        return S;
+    end function;
 
     for n in Reverse([0..degD-(2*M`genus+1)]) do
         S:=linear_integral_solutions([#O: O in ind],n);
@@ -1302,7 +1303,7 @@ intrinsic FindModelOfXG(M::Rec : G0:=1, prec0:=0, prec_delta:=10) -> Rec
     return M;
 end intrinsic;
 
-intrinsic ConvertModularFormExpansions(M1, M2, F, g : wt:=0) -> SeqEnum
+intrinsic ConvertModularFormExpansions(M1::Rec, M2::Rec, F::SeqEnum, g::Any : wt:=0) -> SeqEnum
     {
         Input:
             M1, M2  : modular curves corresponding to X_G1 and X_G2, respectively, where Gi is an open subgroup of GL(2,Zhat).
